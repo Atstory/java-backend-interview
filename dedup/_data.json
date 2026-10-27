@@ -1,0 +1,1762 @@
+{
+  "stats": {
+    "original": 239,
+    "unique": 151
+  },
+  "groups": [
+    {
+      "key": "oracle数据库迁移到opengauss数据库的时候,具体语法或者数据类型遇到问题,具体是什么问题",
+      "canonical_text": "Oracle 数据库迁移到 openGauss 数据库的时候，具体语法或者数据类型遇到问题，具体是什么问题？",
+      "numbers": [
+        2
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q001"
+    },
+    {
+      "key": "oracle数据库迁移到opengauss数据库,性能上有什么差异",
+      "canonical_text": "Oracle 数据库迁移到 openGauss 数据库，性能上有什么差异？",
+      "numbers": [
+        12
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q002"
+    },
+    {
+      "key": "opengauss数据库的性能相比oracle数据库还是有些不同,你是怎么迁移和改造的?性能问题你是怎么解决的",
+      "canonical_text": "openGauss 数据库的性能相比 Oracle 数据库还是有些不同，你是怎么迁移和改造的？性能问题你是怎么解决的？",
+      "numbers": [
+        23
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q003"
+    },
+    {
+      "label": "国产化迁移遇到哪些问题",
+      "canonical_text": "国产化项目迁移过程中，你遇到了哪些问题？",
+      "numbers": [
+        36,
+        184
+      ],
+      "key": "国产化迁移遇到哪些问题",
+      "category": "国产化与数据库迁移",
+      "id": "Q004"
+    },
+    {
+      "label": "openGauss/Oracle/MySQL 哪个性能更高",
+      "canonical_text": "openGauss 数据库、Oracle 数据库、MySQL 数据库，哪个性能更高？",
+      "numbers": [
+        37,
+        52,
+        173
+      ],
+      "key": "openGauss/Oracle/MySQL 哪个性能更高",
+      "category": "国产化与数据库迁移",
+      "id": "Q005"
+    },
+    {
+      "label": "如何保证数据一致性",
+      "canonical_text": "数据从一个数据库（比如 Oracle 数据库）迁移到另一个数据库（比如 openGauss 数据库），如何保证数据一致性？",
+      "numbers": [
+        41,
+        75,
+        109,
+        192,
+        234
+      ],
+      "key": "如何保证数据一致性",
+      "category": "国产化与数据库迁移",
+      "id": "Q006"
+    },
+    {
+      "key": "opengauss数据库和mysql数据库的区别",
+      "canonical_text": "openGauss 数据库和 MySQL 数据库的区别。",
+      "numbers": [
+        55
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q007"
+    },
+    {
+      "key": "国产中间件,国产postgresql数据库,有哪些相关技术",
+      "canonical_text": "国产中间件、国产 PostgreSQL 数据库，有哪些相关技术？",
+      "numbers": [
+        56
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q008"
+    },
+    {
+      "key": "国产opengauss数据库和oracle数据库的区别",
+      "canonical_text": "国产 openGauss 数据库和 Oracle 数据库的区别。",
+      "numbers": [
+        108
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q009"
+    },
+    {
+      "key": "国产技术迁移过程中遇到哪些问题?或者说,项目开发中遇到过哪些技术难点和问题",
+      "canonical_text": "国产技术迁移过程中遇到哪些问题？或者说，项目开发中遇到过哪些技术难点和问题？",
+      "numbers": [
+        111
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q010"
+    },
+    {
+      "key": "用过哪些国产数据库,国产技术栈?迁移过程中遇到哪些问题",
+      "canonical_text": "用过哪些国产数据库、国产技术栈？迁移过程中遇到哪些问题？",
+      "numbers": [
+        117
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q011"
+    },
+    {
+      "label": "Oracle与MySQL哪个更接近达梦",
+      "canonical_text": "Oracle 数据库和 MySQL 数据库，哪个与达梦数据库更接近？",
+      "numbers": [
+        129,
+        134
+      ],
+      "key": "Oracle与MySQL哪个更接近达梦",
+      "category": "国产化与数据库迁移",
+      "id": "Q012"
+    },
+    {
+      "key": "信创迁移,你做了哪些工作",
+      "canonical_text": "信创迁移，你做了哪些工作？",
+      "numbers": [
+        154
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q013"
+    },
+    {
+      "key": "国产中间件,国产postgresql数据库,以及有哪些国产化技术",
+      "canonical_text": "国产中间件、国产 PostgreSQL 数据库，以及有哪些国产化技术？",
+      "numbers": [
+        168
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q014"
+    },
+    {
+      "key": "opengauss数据库和mysql数据库,oracle数据库的区别",
+      "canonical_text": "openGauss 数据库和 MySQL 数据库、Oracle 数据库的区别。",
+      "numbers": [
+        169,
+        219
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q015"
+    },
+    {
+      "label": "达梦/Oracle/MySQL 哪个性能更好",
+      "canonical_text": "达梦数据库、Oracle 数据库、MySQL 数据库，哪个性能更好？",
+      "numbers": [
+        172
+      ],
+      "key": "达梦/Oracle/MySQL 哪个性能更好",
+      "category": "国产化与数据库迁移",
+      "id": "Q016"
+    },
+    {
+      "label": "国产中间件与国产化技术",
+      "canonical_text": "国产中间件。",
+      "numbers": [
+        217
+      ],
+      "key": "国产中间件与国产化技术",
+      "category": "国产化与数据库迁移",
+      "id": "Q017"
+    },
+    {
+      "key": "opengauss数据库和oracle数据库的函数有哪些差异?数据类型有哪些差异?具体哪些数据类型有差异",
+      "canonical_text": "openGauss 数据库和 Oracle 数据库的函数有哪些差异？数据类型有哪些差异？具体哪些数据类型有差异？",
+      "numbers": [
+        218
+      ],
+      "category": "国产化与数据库迁移",
+      "id": "Q018"
+    },
+    {
+      "key": "大批量数据入库,你怎么处理,语句怎么写,如果用动态结构化查询语言的遍历循环解决了,但是入库的时候发现有重复数据或者修改的时候,在插入语句中怎么去重,或者发现重复数据了,怎么正确地修改,不会冲突或者避免重复",
+      "canonical_text": "大批量数据入库，你怎么处理，语句怎么写，如果用动态结构化查询语言的遍历循环解决了，但是入库的时候发现有重复数据或者修改的时候，在插入语句中怎么去重，或者发现重复数据了，怎么正确地修改，不会冲突或者避免重复。",
+      "numbers": [
+        1
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q019"
+    },
+    {
+      "label": "事务失效的方式",
+      "canonical_text": "索引失效、事务失效的方式。",
+      "numbers": [
+        9,
+        124,
+        235
+      ],
+      "key": "事务失效的方式",
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q020"
+    },
+    {
+      "key": "事务之间的相互调用",
+      "canonical_text": "事务之间的相互调用。",
+      "numbers": [
+        11
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q021"
+    },
+    {
+      "label": "索引失效的方式",
+      "canonical_text": "索引失效的方式。",
+      "numbers": [
+        31,
+        189
+      ],
+      "key": "索引失效的方式",
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q022"
+    },
+    {
+      "label": "事务隔离级别的作用",
+      "canonical_text": "事务隔离级别的作用。",
+      "numbers": [
+        38,
+        233
+      ],
+      "key": "事务隔离级别的作用",
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q023"
+    },
+    {
+      "key": "自动注入(@autowired),事务注解(@transactional)和面向切面编程之间有什么关系",
+      "canonical_text": "自动注入（@Autowired）、事务注解（@Transactional）和面向切面编程之间有什么关系？",
+      "numbers": [
+        67
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q024"
+    },
+    {
+      "label": "同类有无事务方法相互调用",
+      "canonical_text": "一个类有两个方法，A 方法有事务，B 方法没有事务，相互调用会有什么情况？",
+      "numbers": [
+        68,
+        166,
+        210
+      ],
+      "key": "同类有无事务方法相互调用",
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q025"
+    },
+    {
+      "label": "事务原理作用与传播机制",
+      "canonical_text": "事务的原理和作用、事务传播机制。",
+      "numbers": [
+        69,
+        209
+      ],
+      "key": "事务原理作用与传播机制",
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q026"
+    },
+    {
+      "label": "事务原理及传播机制",
+      "canonical_text": "事务的原理及传播机制。",
+      "numbers": [
+        74,
+        165,
+        204
+      ],
+      "key": "事务原理及传播机制",
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q027"
+    },
+    {
+      "key": "b+树,聚簇索引,联合索引",
+      "canonical_text": "B+ 树、聚簇索引、联合索引。",
+      "numbers": [
+        76
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q028"
+    },
+    {
+      "label": "事务隔离级别与幻读",
+      "canonical_text": "事务隔离级别及其可能出现的问题，怎么解决幻读？",
+      "numbers": [
+        81,
+        203
+      ],
+      "key": "事务隔离级别与幻读",
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q029"
+    },
+    {
+      "label": "Redis持久化RDB还是AOF",
+      "canonical_text": "实际项目当中，Redis 持久化使用的是数据库快照（Redis Database，RDB）还是仅追加文件（Append Only File，AOF）？",
+      "numbers": [
+        94,
+        103
+      ],
+      "key": "Redis持久化RDB还是AOF",
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q030"
+    },
+    {
+      "key": "慢结构化查询语言(慢sql)怎么优化",
+      "canonical_text": "慢结构化查询语言（慢 SQL）怎么优化？",
+      "numbers": [
+        115
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q031"
+    },
+    {
+      "key": "大批量数据怎么导入,导出?采用分批处理,同步处理还是异步处理",
+      "canonical_text": "大批量数据怎么导入、导出？采用分批处理、同步处理还是异步处理？",
+      "numbers": [
+        122
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q032"
+    },
+    {
+      "key": "数据库怎么发现慢结构化查询语言(慢sql),以及怎么优化",
+      "canonical_text": "数据库怎么发现慢结构化查询语言（慢 SQL），以及怎么优化？",
+      "numbers": [
+        123
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q033"
+    },
+    {
+      "key": "mybatis-plus",
+      "canonical_text": "MyBatis-Plus。",
+      "numbers": [
+        127
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q034"
+    },
+    {
+      "key": "你用过哪些数据库",
+      "canonical_text": "你用过哪些数据库？",
+      "numbers": [
+        128
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q035"
+    },
+    {
+      "key": "默认的事务隔离级别",
+      "canonical_text": "默认的事务隔离级别。",
+      "numbers": [
+        136
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q036"
+    },
+    {
+      "key": "大批量数据处理的方式",
+      "canonical_text": "大批量数据处理的方式。",
+      "numbers": [
+        137
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q037"
+    },
+    {
+      "key": "oracle数据库讲一下",
+      "canonical_text": "Oracle 数据库讲一下。",
+      "numbers": [
+        141
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q038"
+    },
+    {
+      "key": "事务各个隔离级别及其可能出现的问题",
+      "canonical_text": "事务各个隔离级别及其可能出现的问题。",
+      "numbers": [
+        145
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q039"
+    },
+    {
+      "key": "结构化查询语言优化方式,主要优化什么",
+      "canonical_text": "结构化查询语言（Structured Query Language，SQL）优化方式，主要优化什么？",
+      "numbers": [
+        149
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q040"
+    },
+    {
+      "key": "redis扣减成功,但是没有写入数据库,怎么处理",
+      "canonical_text": "Redis 扣减成功，但是没有写入数据库，怎么处理？",
+      "numbers": [
+        160
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q041"
+    },
+    {
+      "key": "多版本并发控制解决什么问题?死锁",
+      "canonical_text": "多版本并发控制（Multi-Version Concurrency Control，MVCC）解决什么问题？死锁。",
+      "numbers": [
+        162
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q042"
+    },
+    {
+      "key": "select…forupdate使用了哪些锁",
+      "canonical_text": "SELECT … FOR UPDATE 使用了哪些锁？",
+      "numbers": [
+        163
+      ],
+      "category": "数据库·SQL·索引·事务",
+      "id": "Q043"
+    },
+    {
+      "key": "缓存能用在哪些场景",
+      "canonical_text": "缓存能用在哪些场景？",
+      "numbers": [
+        14
+      ],
+      "category": "Redis与缓存",
+      "id": "Q044"
+    },
+    {
+      "label": "缓存击穿原因与解决",
+      "canonical_text": "缓存击穿的原因以及解决办法。",
+      "numbers": [
+        15,
+        121,
+        236
+      ],
+      "key": "缓存击穿原因与解决",
+      "category": "Redis与缓存",
+      "id": "Q045"
+    },
+    {
+      "label": "缓存用在哪些业务",
+      "canonical_text": "缓存用在了哪些业务上？",
+      "numbers": [
+        30,
+        190
+      ],
+      "key": "缓存用在哪些业务",
+      "category": "Redis与缓存",
+      "id": "Q046"
+    },
+    {
+      "label": "Redis如何保证数据一致性",
+      "canonical_text": "Redis 怎么保证数据一致性？",
+      "numbers": [
+        32,
+        183
+      ],
+      "key": "Redis如何保证数据一致性",
+      "category": "Redis与缓存",
+      "id": "Q047"
+    },
+    {
+      "label": "服务雪崩解决办法",
+      "canonical_text": "服务产生大面积雪崩问题的解决办法。",
+      "numbers": [
+        70,
+        208
+      ],
+      "key": "服务雪崩解决办法",
+      "category": "Redis与缓存",
+      "id": "Q048"
+    },
+    {
+      "key": "哪些地方用了缓存",
+      "canonical_text": "哪些地方用了缓存？",
+      "numbers": [
+        107
+      ],
+      "category": "Redis与缓存",
+      "id": "Q049"
+    },
+    {
+      "key": "redis在哪些实际业务中用到了",
+      "canonical_text": "Redis 在哪些实际业务中用到了？",
+      "numbers": [
+        112
+      ],
+      "category": "Redis与缓存",
+      "id": "Q050"
+    },
+    {
+      "key": "缓存穿透,缓存击穿,缓存雪崩的概念及解决办法",
+      "canonical_text": "缓存穿透、缓存击穿、缓存雪崩的概念及解决办法。",
+      "numbers": [
+        116
+      ],
+      "category": "Redis与缓存",
+      "id": "Q051"
+    },
+    {
+      "label": "Redis分布式锁",
+      "canonical_text": "Redis 分布式锁。",
+      "numbers": [
+        125,
+        132
+      ],
+      "key": "Redis分布式锁",
+      "category": "Redis与缓存",
+      "id": "Q052"
+    },
+    {
+      "key": "redis用在哪些业务中",
+      "canonical_text": "Redis 用在哪些业务中？",
+      "numbers": [
+        135
+      ],
+      "category": "Redis与缓存",
+      "id": "Q053"
+    },
+    {
+      "key": "缓存常见问题:缓存击穿,缓存雪崩,还有什么",
+      "canonical_text": "缓存常见问题：缓存击穿、缓存雪崩，还有什么？",
+      "numbers": [
+        140
+      ],
+      "category": "Redis与缓存",
+      "id": "Q054"
+    },
+    {
+      "key": "integer缓存机制",
+      "canonical_text": "Integer 缓存机制。",
+      "numbers": [
+        156
+      ],
+      "category": "Redis与缓存",
+      "id": "Q055"
+    },
+    {
+      "key": "redis默认使用哪种持久化方式",
+      "canonical_text": "Redis 默认使用哪种持久化方式？",
+      "numbers": [
+        182
+      ],
+      "category": "Redis与缓存",
+      "id": "Q056"
+    },
+    {
+      "label": "消息队列保证一致性",
+      "canonical_text": "消息队列（Message Queue，MQ）怎么保证消息一致性？",
+      "numbers": [
+        60,
+        79,
+        114,
+        138,
+        214
+      ],
+      "key": "消息队列保证一致性",
+      "category": "消息队列",
+      "id": "Q057"
+    },
+    {
+      "key": "消息队列讲一下",
+      "canonical_text": "消息队列讲一下。",
+      "numbers": [
+        120
+      ],
+      "category": "消息队列",
+      "id": "Q058"
+    },
+    {
+      "key": "消息队列怎么保证数据一致性?比如最终消费金额都是50元,不会导致问题",
+      "canonical_text": "消息队列怎么保证数据一致性？比如最终消费金额都是 50 元，不会导致问题。",
+      "numbers": [
+        139
+      ],
+      "category": "消息队列",
+      "id": "Q059"
+    },
+    {
+      "key": "消息队列用于解耦时,怎么保证业务和数据的一致性",
+      "canonical_text": "消息队列用于解耦时，怎么保证业务和数据的一致性？",
+      "numbers": [
+        150
+      ],
+      "category": "消息队列",
+      "id": "Q060"
+    },
+    {
+      "key": "项目中如何保证数据一致性和消息一致性",
+      "canonical_text": "项目中如何保证数据一致性和消息一致性？",
+      "numbers": [
+        229
+      ],
+      "category": "消息队列",
+      "id": "Q061"
+    },
+    {
+      "key": "java虚拟机你是怎么优化的",
+      "canonical_text": "Java 虚拟机（Java Virtual Machine，JVM）你是怎么优化的？",
+      "numbers": [
+        10
+      ],
+      "category": "JVM与内存",
+      "id": "Q062"
+    },
+    {
+      "key": "生产环境上出现一些问题,比如内存溢出了或者其他问题,除了正常查看日志,你还有哪些分析工具或方式,能定位到具体是代码问题还是结构化查询语言问题",
+      "canonical_text": "生产环境上出现一些问题，比如内存溢出了或者其他问题，除了正常查看日志，你还有哪些分析工具或方式，能定位到具体是代码问题还是结构化查询语言问题？",
+      "numbers": [
+        18
+      ],
+      "category": "JVM与内存",
+      "id": "Q063"
+    },
+    {
+      "key": "中央处理器这一块容易占用率过高,你是怎么优化的",
+      "canonical_text": "中央处理器（Central Processing Unit，CPU）这一块容易占用率过高，你是怎么优化的？",
+      "numbers": [
+        25
+      ],
+      "category": "JVM与内存",
+      "id": "Q064"
+    },
+    {
+      "label": "JVM优化做过哪些",
+      "canonical_text": "Java 虚拟机（Java Virtual Machine，JVM）优化，你做过哪些？",
+      "numbers": [
+        34,
+        186
+      ],
+      "key": "JVM优化做过哪些",
+      "category": "JVM与内存",
+      "id": "Q065"
+    },
+    {
+      "label": "代码运行在JVM什么地方",
+      "canonical_text": "代码运行在 Java 虚拟机（Java Virtual Machine，JVM）的什么地方？",
+      "numbers": [
+        57,
+        167
+      ],
+      "key": "代码运行在JVM什么地方",
+      "category": "JVM与内存",
+      "id": "Q066"
+    },
+    {
+      "label": "JVM优化如何分析",
+      "canonical_text": "Java 虚拟机（Java Virtual Machine，JVM）优化你做过吗？怎么去分析和优化？",
+      "numbers": [
+        63,
+        216
+      ],
+      "key": "JVM优化如何分析",
+      "category": "JVM与内存",
+      "id": "Q067"
+    },
+    {
+      "label": "什么是内存溢出怎么解决",
+      "canonical_text": "什么是内存溢出？怎么解决？",
+      "numbers": [
+        86,
+        198
+      ],
+      "key": "什么是内存溢出怎么解决",
+      "category": "JVM与内存",
+      "id": "Q068"
+    },
+    {
+      "label": "Java类加载器",
+      "canonical_text": "Java 类加载器有哪些？",
+      "numbers": [
+        87,
+        148,
+        197
+      ],
+      "key": "Java类加载器",
+      "category": "JVM与内存",
+      "id": "Q069"
+    },
+    {
+      "label": "Java类加载过程",
+      "canonical_text": "Java 类加载过程。",
+      "numbers": [
+        88,
+        146,
+        196
+      ],
+      "key": "Java类加载过程",
+      "category": "JVM与内存",
+      "id": "Q070"
+    },
+    {
+      "label": "JDK17垃圾回收器",
+      "canonical_text": "Java 开发工具包 17（Java Development Kit 17，JDK 17）使用的是哪个垃圾回收器？",
+      "numbers": [
+        90,
+        99
+      ],
+      "key": "JDK17垃圾回收器",
+      "category": "JVM与内存",
+      "id": "Q071"
+    },
+    {
+      "label": "JDK8垃圾回收器",
+      "canonical_text": "Java 开发工具包 8（Java Development Kit 8，JDK 8）使用的是哪个垃圾回收器？",
+      "numbers": [
+        91,
+        100
+      ],
+      "key": "JDK8垃圾回收器",
+      "category": "JVM与内存",
+      "id": "Q072"
+    },
+    {
+      "key": "如何解决内存溢出",
+      "canonical_text": "如何解决内存溢出？",
+      "numbers": [
+        144
+      ],
+      "category": "JVM与内存",
+      "id": "Q073"
+    },
+    {
+      "key": "java虚拟机的运行时数据区",
+      "canonical_text": "Java 虚拟机（Java Virtual Machine，JVM）的运行时数据区。",
+      "numbers": [
+        161
+      ],
+      "category": "JVM与内存",
+      "id": "Q074"
+    },
+    {
+      "label": "如何记录线程全部完成",
+      "canonical_text": "怎么记录线程运行完了，并且都正确提交了，可以继续走接下来的流程？",
+      "numbers": [
+        16,
+        237
+      ],
+      "key": "如何记录线程全部完成",
+      "category": "并发·锁·线程池",
+      "id": "Q075"
+    },
+    {
+      "label": "volatile与synchronized使用场景",
+      "canonical_text": "volatile 关键字用在了哪些地方？synchronized 关键字用在了哪些地方？",
+      "numbers": [
+        26,
+        188
+      ],
+      "key": "volatile与synchronized使用场景",
+      "category": "并发·锁·线程池",
+      "id": "Q076"
+    },
+    {
+      "key": "比较并交换是什么?原理是什么?英文全称是什么",
+      "canonical_text": "比较并交换（Compare-And-Swap，CAS）是什么？原理是什么？英文全称是什么？",
+      "numbers": [
+        28
+      ],
+      "category": "并发·锁·线程池",
+      "id": "Q077"
+    },
+    {
+      "label": "synchronized与volatile区别",
+      "canonical_text": "synchronized 关键字和 volatile 关键字的区别。",
+      "numbers": [
+        29,
+        191
+      ],
+      "key": "synchronized与volatile区别",
+      "category": "并发·锁·线程池",
+      "id": "Q078"
+    },
+    {
+      "label": "synchronized与可重入锁",
+      "canonical_text": "synchronized 关键字和可重入锁的区别。",
+      "numbers": [
+        42,
+        227
+      ],
+      "key": "synchronized与可重入锁",
+      "category": "并发·锁·线程池",
+      "id": "Q079"
+    },
+    {
+      "label": "锁讲一下",
+      "canonical_text": "锁讲一下，用过哪几种？",
+      "numbers": [
+        43,
+        226
+      ],
+      "key": "锁讲一下",
+      "category": "并发·锁·线程池",
+      "id": "Q080"
+    },
+    {
+      "key": "线程池的运行机制讲一下",
+      "canonical_text": "线程池的运行机制讲一下。",
+      "numbers": [
+        44,
+        158,
+        177
+      ],
+      "category": "并发·锁·线程池",
+      "id": "Q081"
+    },
+    {
+      "key": "创建线程的几种方式",
+      "canonical_text": "创建线程的几种方式。",
+      "numbers": [
+        48
+      ],
+      "category": "并发·锁·线程池",
+      "id": "Q082"
+    },
+    {
+      "label": "如何等待多线程全部结束",
+      "canonical_text": "多线程运行结束后，我怎么知道这几个线程都正确运行结束了？有什么方式？10 个线程执行完了，需要走其他逻辑，我怎么知道这 10 个线程执行完了？怎么知道这 10 个线程执行完了？",
+      "numbers": [
+        51,
+        176,
+        221
+      ],
+      "key": "如何等待多线程全部结束",
+      "category": "并发·锁·线程池",
+      "id": "Q083"
+    },
+    {
+      "label": "用过哪些线程池与指标",
+      "canonical_text": "用过哪些线程池？有什么区别？怎么分析线程池的一些指标？",
+      "numbers": [
+        61,
+        213
+      ],
+      "key": "用过哪些线程池与指标",
+      "category": "并发·锁·线程池",
+      "id": "Q084"
+    },
+    {
+      "label": "ThreadLocal",
+      "canonical_text": "讲一下 ThreadLocal。",
+      "numbers": [
+        80,
+        147
+      ],
+      "key": "ThreadLocal",
+      "category": "并发·锁·线程池",
+      "id": "Q085"
+    },
+    {
+      "label": "volatile怎么用",
+      "canonical_text": "volatile 关键字讲一下，怎么用？",
+      "numbers": [
+        82,
+        202
+      ],
+      "key": "volatile怎么用",
+      "category": "并发·锁·线程池",
+      "id": "Q086"
+    },
+    {
+      "label": "ConcurrentHashMap为何线程安全",
+      "canonical_text": "ConcurrentHashMap 为什么是线程安全的？",
+      "numbers": [
+        83,
+        201
+      ],
+      "key": "ConcurrentHashMap为何线程安全",
+      "category": "并发·锁·线程池",
+      "id": "Q087"
+    },
+    {
+      "label": "线程安全的集合",
+      "canonical_text": "线程安全的集合有哪些？",
+      "numbers": [
+        84,
+        200
+      ],
+      "key": "线程安全的集合",
+      "category": "并发·锁·线程池",
+      "id": "Q088"
+    },
+    {
+      "label": "synchronized与Lock区别",
+      "canonical_text": "synchronized 关键字和 Lock 接口的区别。",
+      "numbers": [
+        85,
+        199
+      ],
+      "key": "synchronized与Lock区别",
+      "category": "并发·锁·线程池",
+      "id": "Q089"
+    },
+    {
+      "key": "你用过哪些锁",
+      "canonical_text": "你用过哪些锁？",
+      "numbers": [
+        118
+      ],
+      "category": "并发·锁·线程池",
+      "id": "Q090"
+    },
+    {
+      "label": "创建线程池的几种方式",
+      "canonical_text": "创建线程池的几种方式。",
+      "numbers": [
+        126,
+        133,
+        178,
+        239
+      ],
+      "key": "创建线程池的几种方式",
+      "category": "并发·锁·线程池",
+      "id": "Q091"
+    },
+    {
+      "key": "数字人民币解冻付款,怎么处理高并发",
+      "canonical_text": "数字人民币解冻付款，怎么处理高并发？",
+      "numbers": [
+        130
+      ],
+      "category": "并发·锁·线程池",
+      "id": "Q092"
+    },
+    {
+      "key": "抽象队列同步器",
+      "canonical_text": "抽象队列同步器（AbstractQueuedSynchronizer，AQS）。",
+      "numbers": [
+        151
+      ],
+      "category": "并发·锁·线程池",
+      "id": "Q093"
+    },
+    {
+      "key": "线程池的核心参数",
+      "canonical_text": "线程池的核心参数。",
+      "numbers": [
+        157
+      ],
+      "category": "并发·锁·线程池",
+      "id": "Q094"
+    },
+    {
+      "key": "高并发接口,每秒查询次数过万,接口怎么设计",
+      "canonical_text": "高并发接口，每秒查询次数（Queries Per Second，QPS）过万，接口怎么设计？",
+      "numbers": [
+        159
+      ],
+      "category": "并发·锁·线程池",
+      "id": "Q095"
+    },
+    {
+      "label": "如何等待10个线程结束",
+      "canonical_text": "10 个线程执行完了，需要走其他逻辑，我怎么知道这 10 个线程执行完了？",
+      "numbers": [
+        222
+      ],
+      "key": "如何等待10个线程结束",
+      "category": "并发·锁·线程池",
+      "id": "Q096"
+    },
+    {
+      "key": "请求过来,对于javascript对象表示法或者一些对象的数据,怎么正确接收和转换,比如请求体绑定注解(@requestbody)等等,接收到后,它是怎么映射处理的,接下来怎么处理",
+      "canonical_text": "请求过来，对于 JavaScript 对象表示法（JavaScript Object Notation，JSON）或者一些对象的数据，怎么正确接收和转换，比如请求体绑定注解（@RequestBody）等等，接收到后，它是怎么映射处理的，接下来怎么处理？",
+      "numbers": [
+        4
+      ],
+      "category": "Spring·AOP·IoC",
+      "id": "Q097"
+    },
+    {
+      "key": "通知,比如环绕通知,前置通知,后置通知,有哪些具体的应用场景",
+      "canonical_text": "通知，比如环绕通知、前置通知、后置通知，有哪些具体的应用场景？",
+      "numbers": [
+        17
+      ],
+      "category": "Spring·AOP·IoC",
+      "id": "Q098"
+    },
+    {
+      "label": "Spring Boot常用注解",
+      "canonical_text": "Spring Boot 常用注解。",
+      "numbers": [
+        47,
+        179
+      ],
+      "key": "Spring Boot常用注解",
+      "category": "Spring·AOP·IoC",
+      "id": "Q099"
+    },
+    {
+      "key": "面向切面编程的机制是什么?哪些地方用到",
+      "canonical_text": "面向切面编程（Aspect-Oriented Programming，AOP）的机制是什么？哪些地方用到？",
+      "numbers": [
+        66
+      ],
+      "category": "Spring·AOP·IoC",
+      "id": "Q100"
+    },
+    {
+      "label": "AOP通过什么实现",
+      "canonical_text": "面向切面编程（Aspect-Oriented Programming，AOP）通过什么实现？",
+      "numbers": [
+        89,
+        195
+      ],
+      "key": "AOP通过什么实现",
+      "category": "Spring·AOP·IoC",
+      "id": "Q101"
+    },
+    {
+      "label": "实际项目AOP做过哪些",
+      "canonical_text": "实际项目当中，你用面向切面编程（Aspect-Oriented Programming，AOP）做过哪些事情？",
+      "numbers": [
+        93,
+        102
+      ],
+      "key": "实际项目AOP做过哪些",
+      "category": "Spring·AOP·IoC",
+      "id": "Q102"
+    },
+    {
+      "label": "AOP通知用法与场景",
+      "canonical_text": "面向切面编程（Aspect-Oriented Programming，AOP）中的通知，你是怎么使用的？有哪些业务场景？",
+      "numbers": [
+        97,
+        106,
+        193
+      ],
+      "key": "AOP通知用法与场景",
+      "category": "Spring·AOP·IoC",
+      "id": "Q103"
+    },
+    {
+      "key": "控制反转和面向切面编程的原理讲一下",
+      "canonical_text": "控制反转（Inversion of Control，IoC）和面向切面编程（Aspect-Oriented Programming，AOP）的原理讲一下。",
+      "numbers": [
+        142
+      ],
+      "category": "Spring·AOP·IoC",
+      "id": "Q104"
+    },
+    {
+      "key": "@springbootapplication注解由哪些注解组成",
+      "canonical_text": "@SpringBootApplication 注解由哪些注解组成？",
+      "numbers": [
+        164
+      ],
+      "category": "Spring·AOP·IoC",
+      "id": "Q105"
+    },
+    {
+      "label": "OpenFeign连哪个节点",
+      "canonical_text": "OpenFeign 远程调用时，A 服务连接 B 服务，B 服务有 1、2、3 三个节点，会连接到哪个节点？",
+      "numbers": [
+        49,
+        174
+      ],
+      "key": "OpenFeign连哪个节点",
+      "category": "微服务与治理",
+      "id": "Q106"
+    },
+    {
+      "label": "配置中心与热更新",
+      "canonical_text": "微服务中的配置使用什么？配置只能发布后才能生效吗？不能实时生效吗？",
+      "numbers": [
+        50,
+        175,
+        220
+      ],
+      "key": "配置中心与热更新",
+      "category": "微服务与治理",
+      "id": "Q107"
+    },
+    {
+      "label": "用过哪些中间件",
+      "canonical_text": "用过哪些中间件？用在什么地方？起什么作用？",
+      "numbers": [
+        62,
+        110,
+        215
+      ],
+      "key": "用过哪些中间件",
+      "category": "微服务与治理",
+      "id": "Q108"
+    },
+    {
+      "label": "微服务组件",
+      "canonical_text": "介绍一下微服务的几个组件。",
+      "numbers": [
+        64,
+        211
+      ],
+      "key": "微服务组件",
+      "category": "微服务与治理",
+      "id": "Q109"
+    },
+    {
+      "key": "有没有遇到熔断问题?a服务调用b服务,b服务卡住了,openfeign远程调用有熔断机制,直接触发熔断并抛出异常,避免服务资源持续占用,导致a服务也崩溃",
+      "canonical_text": "有没有遇到熔断问题？A 服务调用 B 服务，B 服务卡住了，OpenFeign 远程调用有熔断机制，直接触发熔断并抛出异常，避免服务资源持续占用，导致 A 服务也崩溃。",
+      "numbers": [
+        65
+      ],
+      "category": "微服务与治理",
+      "id": "Q110"
+    },
+    {
+      "key": "注册中心和配置中心,你用的都是nacos吗",
+      "canonical_text": "注册中心和配置中心，你用的都是 Nacos 吗？",
+      "numbers": [
+        78
+      ],
+      "category": "微服务与治理",
+      "id": "Q111"
+    },
+    {
+      "label": "Nacos使用API还是什么",
+      "canonical_text": "Nacos 使用的是应用程序编程接口（Application Programming Interface，API），还是什么？",
+      "numbers": [
+        92,
+        101
+      ],
+      "key": "Nacos使用API还是什么",
+      "category": "微服务与治理",
+      "id": "Q112"
+    },
+    {
+      "label": "队列和栈的区别",
+      "canonical_text": "队列和栈的区别。",
+      "numbers": [
+        39,
+        232
+      ],
+      "key": "队列和栈的区别",
+      "category": "集合与Java基础",
+      "id": "Q113"
+    },
+    {
+      "label": "栈和堆的作用",
+      "canonical_text": "栈和堆分别有什么作用？堆涉及的先进后出概念，能举个例子吗？",
+      "numbers": [
+        40,
+        231
+      ],
+      "key": "栈和堆的作用",
+      "category": "集合与Java基础",
+      "id": "Q114"
+    },
+    {
+      "label": "堆和栈的区别",
+      "canonical_text": "讲一下堆和栈的区别，分别存储什么？",
+      "numbers": [
+        53,
+        171
+      ],
+      "key": "堆和栈的区别",
+      "category": "集合与Java基础",
+      "id": "Q115"
+    },
+    {
+      "label": "String存在堆还是栈",
+      "canonical_text": "String 字符串存在哪里，堆还是栈？",
+      "numbers": [
+        54,
+        170
+      ],
+      "key": "String存在堆还是栈",
+      "category": "集合与Java基础",
+      "id": "Q116"
+    },
+    {
+      "key": "stringbuilder和stringbuffer的区别",
+      "canonical_text": "StringBuilder 和 StringBuffer 的区别。",
+      "numbers": [
+        73,
+        113
+      ],
+      "category": "集合与Java基础",
+      "id": "Q117"
+    },
+    {
+      "key": "map的底层有哪些组成部分",
+      "canonical_text": "Map 的底层有哪些组成部分？",
+      "numbers": [
+        77
+      ],
+      "category": "集合与Java基础",
+      "id": "Q118"
+    },
+    {
+      "key": "创建对象的几种方式",
+      "canonical_text": "创建对象的几种方式。",
+      "numbers": [
+        143
+      ],
+      "category": "集合与Java基础",
+      "id": "Q119"
+    },
+    {
+      "key": "栈涉及的先进后出概念,能举个例子吗",
+      "canonical_text": "栈涉及的先进后出概念，能举个例子吗？",
+      "numbers": [
+        230
+      ],
+      "category": "集合与Java基础",
+      "id": "Q120"
+    },
+    {
+      "key": "web层请求进来了,怎么防止跨站脚本攻击或者结构化查询语言注入攻击,写在哪里,怎么防止这些攻击",
+      "canonical_text": "Web 层请求进来了，怎么防止跨站脚本攻击（Cross-Site Scripting，XSS）或者结构化查询语言注入攻击，写在哪里，怎么防止这些攻击？",
+      "numbers": [
+        3
+      ],
+      "category": "安全与加密",
+      "id": "Q121"
+    },
+    {
+      "key": "亚马逊简单存储服务容器.你对一些文件加密上传的时候,用哪些算法,比如res,加密后的密钥你存在哪里,存在s3存储桶里,还是其他地方",
+      "canonical_text": "亚马逊简单存储服务（Amazon Simple Storage Service，Amazon S3）容器。你对一些文件加密上传的时候，用哪些算法，比如RES，加密后的密钥你存在哪里，存在 S3 存储桶里，还是其他地方？",
+      "numbers": [
+        5
+      ],
+      "category": "安全与加密",
+      "id": "Q122"
+    },
+    {
+      "key": "在涉及外部接口时,你要注意哪些算法?有哪些算法可以保证对接安全,不会被攻击",
+      "canonical_text": "在涉及外部接口时，你要注意哪些算法？有哪些算法可以保证对接安全，不会被攻击？",
+      "numbers": [
+        7
+      ],
+      "category": "安全与加密",
+      "id": "Q123"
+    },
+    {
+      "label": "加密数据如何处理与查询",
+      "canonical_text": "项目中你是如何处理加密数据的？对于加密的数据，你是怎么查询的？比如手机号后四位，你怎么查询、做搜索？",
+      "numbers": [
+        45,
+        225
+      ],
+      "key": "加密数据如何处理与查询",
+      "category": "安全与加密",
+      "id": "Q124"
+    },
+    {
+      "label": "不同用户权限怎么处理",
+      "canonical_text": "业务当中，不同用户的权限你是怎么处理的？代码当中有写过吗？怎么写的？",
+      "numbers": [
+        98,
+        194
+      ],
+      "key": "不同用户权限怎么处理",
+      "category": "安全与加密",
+      "id": "Q125"
+    },
+    {
+      "key": "代码中使用了哪些加密算法",
+      "canonical_text": "代码中使用了哪些加密算法？",
+      "numbers": [
+        224
+      ],
+      "category": "安全与加密",
+      "id": "Q126"
+    },
+    {
+      "key": "亚马逊简单存储服务存储桶,你处理一些文件后,处理了哪些源数据,处理了哪些对象,容器一共有哪些源数据和对象,你又是分别怎么处理的?你是怎么对接并且调用的",
+      "canonical_text": "亚马逊简单存储服务（Amazon S3）存储桶，你处理一些文件后，处理了哪些源数据，处理了哪些对象，容器一共有哪些源数据和对象，你又是分别怎么处理的？你是怎么对接并且调用的？",
+      "numbers": [
+        6
+      ],
+      "category": "对象存储",
+      "id": "Q127"
+    },
+    {
+      "key": "亚马逊简单存储服务存储桶比较核心的要点是什么",
+      "canonical_text": "亚马逊简单存储服务（Amazon S3）存储桶比较核心的要点是什么？",
+      "numbers": [
+        8
+      ],
+      "category": "对象存储",
+      "id": "Q128"
+    },
+    {
+      "key": "对象存储服务容器",
+      "canonical_text": "对象存储服务（Object Storage Service，OBS）容器。",
+      "numbers": [
+        180
+      ],
+      "category": "对象存储",
+      "id": "Q129"
+    },
+    {
+      "label": "ES检索加密手机号后四位",
+      "canonical_text": "提到的 Elasticsearch（分布式搜索与分析引擎，ES），你怎么通过手机号后四位检索到加密数据？",
+      "numbers": [
+        46,
+        223
+      ],
+      "key": "ES检索加密手机号后四位",
+      "category": "搜索·Elasticsearch",
+      "id": "Q130"
+    },
+    {
+      "key": "国产elasticsearch检索技术",
+      "canonical_text": "国产 Elasticsearch 检索技术。",
+      "numbers": [
+        58
+      ],
+      "category": "搜索·Elasticsearch",
+      "id": "Q131"
+    },
+    {
+      "label": "支付业务与数据一致性",
+      "canonical_text": "有没有做过支付业务？你是如何保证数据一致性的？有没有采取过哪些措施？",
+      "numbers": [
+        33,
+        187
+      ],
+      "key": "支付业务与数据一致性",
+      "category": "支付·幂等·一致性业务",
+      "id": "Q132"
+    },
+    {
+      "key": "用户表和商品表,怎么查询到个人已付款的数据,再加一个消费金额大于1000的条件,怎么查询",
+      "canonical_text": "用户表和商品表，怎么查询到个人已付款的数据，再加一个消费金额大于 1000 的条件，怎么查询？",
+      "numbers": [
+        119
+      ],
+      "category": "支付·幂等·一致性业务",
+      "id": "Q133"
+    },
+    {
+      "label": "什么是幂等性",
+      "canonical_text": "你们的付款拆分是怎么设计的？什么是幂等性？",
+      "numbers": [
+        131,
+        153,
+        228
+      ],
+      "key": "什么是幂等性",
+      "category": "支付·幂等·一致性业务",
+      "id": "Q134"
+    },
+    {
+      "label": "接口慢如何定位",
+      "canonical_text": "当数据响应比较慢或者接口比较慢时，你怎么定位是哪一块的原因？",
+      "numbers": [
+        19,
+        238
+      ],
+      "key": "接口慢如何定位",
+      "category": "性能与排查",
+      "id": "Q135"
+    },
+    {
+      "key": "对于接口查询比较慢的情况,从代码上你是怎么定位和解决的",
+      "canonical_text": "对于接口查询比较慢的情况，从代码上你是怎么定位和解决的？",
+      "numbers": [
+        24
+      ],
+      "category": "性能与排查",
+      "id": "Q136"
+    },
+    {
+      "key": "每秒查询次数过万的流量接口怎么设计",
+      "canonical_text": "每秒查询次数（Queries Per Second，QPS）过万的流量接口怎么设计？",
+      "numbers": [
+        72
+      ],
+      "category": "性能与排查",
+      "id": "Q137"
+    },
+    {
+      "key": "有一个接口,响应时间突然变长,如何分析和排查",
+      "canonical_text": "有一个接口，响应时间突然变长，如何分析和排查？",
+      "numbers": [
+        152
+      ],
+      "category": "性能与排查",
+      "id": "Q138"
+    },
+    {
+      "label": "Activiti工作流",
+      "canonical_text": "Activiti 工作流。",
+      "numbers": [
+        71,
+        207
+      ],
+      "key": "Activiti工作流",
+      "category": "设计模式与工作流",
+      "id": "Q139"
+    },
+    {
+      "label": "策略模式",
+      "canonical_text": "策略模式的概念，以及它和工厂模式的区别。",
+      "numbers": [
+        95,
+        104,
+        205
+      ],
+      "key": "策略模式",
+      "category": "设计模式与工作流",
+      "id": "Q140"
+    },
+    {
+      "key": "nginx用过吧,怎么用的",
+      "canonical_text": "Nginx 用过吧，怎么用的？",
+      "numbers": [
+        13
+      ],
+      "category": "工程与团队",
+      "id": "Q141"
+    },
+    {
+      "key": "对于团队当中代码能力比较弱的员工,你是怎么管理的",
+      "canonical_text": "对于团队当中代码能力比较弱的员工，你是怎么管理的？",
+      "numbers": [
+        20
+      ],
+      "category": "工程与团队",
+      "id": "Q142"
+    },
+    {
+      "key": "团队开发当中,你的管理风格是什么",
+      "canonical_text": "团队开发当中，你的管理风格是什么？",
+      "numbers": [
+        21
+      ],
+      "category": "工程与团队",
+      "id": "Q143"
+    },
+    {
+      "key": "你会做代码检查吗?具体是什么方式",
+      "canonical_text": "你会做代码检查吗？具体是什么方式？",
+      "numbers": [
+        22
+      ],
+      "category": "工程与团队",
+      "id": "Q144"
+    },
+    {
+      "key": "前后端怎么交互",
+      "canonical_text": "前后端怎么交互？",
+      "numbers": [
+        27
+      ],
+      "category": "工程与团队",
+      "id": "Q145"
+    },
+    {
+      "label": "如何重构一个项目",
+      "canonical_text": "如果让你重构一个项目，你会怎么考虑？",
+      "numbers": [
+        35,
+        185
+      ],
+      "key": "如何重构一个项目",
+      "category": "工程与团队",
+      "id": "Q146"
+    },
+    {
+      "label": "无需求文档如何熟悉项目",
+      "canonical_text": "没有需求文档，有个东西让你开发，你怎么快速熟悉一个项目？",
+      "numbers": [
+        59,
+        212
+      ],
+      "key": "无需求文档如何熟悉项目",
+      "category": "工程与团队",
+      "id": "Q147"
+    },
+    {
+      "label": "Excel用POI还是EasyExcel",
+      "canonical_text": "Excel 文件处理，你用的是哪个类库？怎么使用？介绍一种使用方式。另外，Apache POI 和 EasyExcel 有什么区别？什么情况下使用哪个？",
+      "numbers": [
+        96,
+        105
+      ],
+      "key": "Excel用POI还是EasyExcel",
+      "category": "工程与团队",
+      "id": "Q148"
+    },
+    {
+      "key": "遇到过哪些麻烦的技术难点和问题",
+      "canonical_text": "遇到过哪些麻烦的技术难点和问题？",
+      "numbers": [
+        155
+      ],
+      "category": "工程与团队",
+      "id": "Q149"
+    },
+    {
+      "key": "linux操作系统常用命令",
+      "canonical_text": "Linux 操作系统常用命令。",
+      "numbers": [
+        181
+      ],
+      "category": "工程与团队",
+      "id": "Q150"
+    },
+    {
+      "key": "技术上做过哪些业务难点",
+      "canonical_text": "技术上做过哪些业务难点？",
+      "numbers": [
+        206
+      ],
+      "category": "工程与团队",
+      "id": "Q151"
+    }
+  ],
+  "by_number": {
+    "1": "Q019",
+    "2": "Q001",
+    "3": "Q121",
+    "4": "Q097",
+    "5": "Q122",
+    "6": "Q127",
+    "7": "Q123",
+    "8": "Q128",
+    "9": "Q020",
+    "10": "Q062",
+    "11": "Q021",
+    "12": "Q002",
+    "13": "Q141",
+    "14": "Q044",
+    "15": "Q045",
+    "16": "Q075",
+    "17": "Q098",
+    "18": "Q063",
+    "19": "Q135",
+    "20": "Q142",
+    "21": "Q143",
+    "22": "Q144",
+    "23": "Q003",
+    "24": "Q136",
+    "25": "Q064",
+    "26": "Q076",
+    "27": "Q145",
+    "28": "Q077",
+    "29": "Q078",
+    "30": "Q046",
+    "31": "Q022",
+    "32": "Q047",
+    "33": "Q132",
+    "34": "Q065",
+    "35": "Q146",
+    "36": "Q004",
+    "37": "Q005",
+    "38": "Q023",
+    "39": "Q113",
+    "40": "Q114",
+    "41": "Q006",
+    "42": "Q079",
+    "43": "Q080",
+    "44": "Q081",
+    "45": "Q124",
+    "46": "Q130",
+    "47": "Q099",
+    "48": "Q082",
+    "49": "Q106",
+    "50": "Q107",
+    "51": "Q083",
+    "52": "Q005",
+    "53": "Q115",
+    "54": "Q116",
+    "55": "Q007",
+    "56": "Q008",
+    "57": "Q066",
+    "58": "Q131",
+    "59": "Q147",
+    "60": "Q057",
+    "61": "Q084",
+    "62": "Q108",
+    "63": "Q067",
+    "64": "Q109",
+    "65": "Q110",
+    "66": "Q100",
+    "67": "Q024",
+    "68": "Q025",
+    "69": "Q026",
+    "70": "Q048",
+    "71": "Q139",
+    "72": "Q137",
+    "73": "Q117",
+    "74": "Q027",
+    "75": "Q006",
+    "76": "Q028",
+    "77": "Q118",
+    "78": "Q111",
+    "79": "Q057",
+    "80": "Q085",
+    "81": "Q029",
+    "82": "Q086",
+    "83": "Q087",
+    "84": "Q088",
+    "85": "Q089",
+    "86": "Q068",
+    "87": "Q069",
+    "88": "Q070",
+    "89": "Q101",
+    "90": "Q071",
+    "91": "Q072",
+    "92": "Q112",
+    "93": "Q102",
+    "94": "Q030",
+    "95": "Q140",
+    "96": "Q148",
+    "97": "Q103",
+    "98": "Q125",
+    "99": "Q071",
+    "100": "Q072",
+    "101": "Q112",
+    "102": "Q102",
+    "103": "Q030",
+    "104": "Q140",
+    "105": "Q148",
+    "106": "Q103",
+    "107": "Q049",
+    "108": "Q009",
+    "109": "Q006",
+    "110": "Q108",
+    "111": "Q010",
+    "112": "Q050",
+    "113": "Q117",
+    "114": "Q057",
+    "115": "Q031",
+    "116": "Q051",
+    "117": "Q011",
+    "118": "Q090",
+    "119": "Q133",
+    "120": "Q058",
+    "121": "Q045",
+    "122": "Q032",
+    "123": "Q033",
+    "124": "Q020",
+    "125": "Q052",
+    "126": "Q091",
+    "127": "Q034",
+    "128": "Q035",
+    "129": "Q012",
+    "130": "Q092",
+    "131": "Q134",
+    "132": "Q052",
+    "133": "Q091",
+    "134": "Q012",
+    "135": "Q053",
+    "136": "Q036",
+    "137": "Q037",
+    "138": "Q057",
+    "139": "Q059",
+    "140": "Q054",
+    "141": "Q038",
+    "142": "Q104",
+    "143": "Q119",
+    "144": "Q073",
+    "145": "Q039",
+    "146": "Q070",
+    "147": "Q085",
+    "148": "Q069",
+    "149": "Q040",
+    "150": "Q060",
+    "151": "Q093",
+    "152": "Q138",
+    "153": "Q134",
+    "154": "Q013",
+    "155": "Q149",
+    "156": "Q055",
+    "157": "Q094",
+    "158": "Q081",
+    "159": "Q095",
+    "160": "Q041",
+    "161": "Q074",
+    "162": "Q042",
+    "163": "Q043",
+    "164": "Q105",
+    "165": "Q027",
+    "166": "Q025",
+    "167": "Q066",
+    "168": "Q014",
+    "169": "Q015",
+    "170": "Q116",
+    "171": "Q115",
+    "172": "Q016",
+    "173": "Q005",
+    "174": "Q106",
+    "175": "Q107",
+    "176": "Q083",
+    "177": "Q081",
+    "178": "Q091",
+    "179": "Q099",
+    "180": "Q129",
+    "181": "Q150",
+    "182": "Q056",
+    "183": "Q047",
+    "184": "Q004",
+    "185": "Q146",
+    "186": "Q065",
+    "187": "Q132",
+    "188": "Q076",
+    "189": "Q022",
+    "190": "Q046",
+    "191": "Q078",
+    "192": "Q006",
+    "193": "Q103",
+    "194": "Q125",
+    "195": "Q101",
+    "196": "Q070",
+    "197": "Q069",
+    "198": "Q068",
+    "199": "Q089",
+    "200": "Q088",
+    "201": "Q087",
+    "202": "Q086",
+    "203": "Q029",
+    "204": "Q027",
+    "205": "Q140",
+    "206": "Q151",
+    "207": "Q139",
+    "208": "Q048",
+    "209": "Q026",
+    "210": "Q025",
+    "211": "Q109",
+    "212": "Q147",
+    "213": "Q084",
+    "214": "Q057",
+    "215": "Q108",
+    "216": "Q067",
+    "217": "Q017",
+    "218": "Q018",
+    "219": "Q015",
+    "220": "Q107",
+    "221": "Q083",
+    "222": "Q096",
+    "223": "Q130",
+    "224": "Q126",
+    "225": "Q124",
+    "226": "Q080",
+    "227": "Q079",
+    "228": "Q134",
+    "229": "Q061",
+    "230": "Q120",
+    "231": "Q114",
+    "232": "Q113",
+    "233": "Q023",
+    "234": "Q006",
+    "235": "Q020",
+    "236": "Q045",
+    "237": "Q075",
+    "238": "Q135",
+    "239": "Q091"
+  }
+}
