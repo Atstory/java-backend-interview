@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dirac 声波动画 - Three.js 1:1 复刻</title>
+
+  <style>
+    /* 重置样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* 间距变量 */
+      --spacing-space-sm: 1rem;
+      --spacing-space-md: 2rem;
+      --spacing-space-2xl: 4rem;
+      --spacing-space-3xl: 6rem;
+      --spacing-space-nav-lg: 5rem;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+      font-weight: 300;
+    }
+
+    /* 主容器 */
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-space-2xl);
+    }
+
+    /* 场景容器 - 相对定位 */
+    .all-scenes-container {
+      position: relative;
+      width: 100%;
+      font-weight: 300;
+    }
+
+    /* Canvas背景层 - 绝对定位 */
+    .canvas-background-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    .canvas-wrapper {
+      height: 100%;
+      margin-left: calc(-1 * var(--spacing-space-sm));
+      margin-right: calc(-1 * var(--spacing-space-sm));
+    }
+
+    /* 主Canvas - 粘性定位 */
+    #mainWaveCanvas {
+      position: sticky;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      height: 100vh;
+      max-height: 100svh;
+      width: 100%;
+      pointer-events: none;
+      transition: opacity 500ms;
+    }
+
+    /* 内容层 - 相对定位在Canvas之上 */
+    .scenes-content-layer {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* 单个场景容器 */
+    .scene-container {
+      position: relative;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+      padding: 0 var(--spacing-space-sm);
+    }
+
+    /* 第一个场景 - 方形且计算导航栏高度 */
+    .scene-container[data-scene-index="0"] {
+      aspect-ratio: 1;
+      height: calc(100vh - var(--spacing-space-nav-lg));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* 其他场景 - 110vh高度 */
+    .scene-container[data-scene-index="1"],
+    .scene-container[data-scene-index="2"],
+    .scene-container[data-scene-index="3"],
+    .scene-container[data-scene-index="4"] {
+      height: 110vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* 文字内容块 */
+    .text-content-block {
+      opacity: var(--opacity, 0.2);
+      transition: opacity var(--duration, 400ms) var(--delay, 0ms);
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 文字大小 */
+    .text-large {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+    }
+
+    .text-xl {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      line-height: 1.2;
+    }
+
+    .text-body {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    /* 第一屏文字布局 */
+    .scene-0-text-1 {
+      width: 72%;
+      align-self: flex-start;
+    }
+
+    .scene-0-text-2 {
+      width: 72%;
+      margin-left: auto;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .scene-0-text-3 {
+      width: 66%;
+      align-self: flex-start;
+    }
+
+    /* 其他场景文字布局 */
+    .scene-text-left {
+      width: 50%;
+      align-self: flex-start;
+    }
+
+    .scene-text-right {
+      width: 50%;
+      margin-left: auto;
+    }
+
+    /* 结果区域 */
+    .result-section {
+      padding: 0 var(--spacing-space-sm);
+      margin-bottom: var(--spacing-space-2xl);
+    }
+
+    .result-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      font-weight: 300;
+      width: 50%;
+      margin-bottom: var(--spacing-space-md);
+    }
+
+    /* 响应式 */
+    @media (min-width: 768px) {
+      :root {
+        --spacing-space-sm: 2rem;
+      }
+
+      .canvas-wrapper {
+        margin-left: calc(-1 * var(--spacing-space-md));
+        margin-right: calc(-1 * var(--spacing-space-md));
+      }
+
+      .scene-container[data-scene-index="1"],
+      .scene-container[data-scene-index="2"],
+      .scene-container[data-scene-index="3"],
+      .scene-container[data-scene-index="4"] {
+        height: 80vh;
+        align-items: center;
+      }
+    }
+
+    /* 箭头动画 */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .arrow-pulse {
+      display: inline-block;
+      transform: rotate(90deg);
+      animation: pulse 2s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-container">
+
+    <!-- 所有场景的容器 -->
+    <div class="all-scenes-container" data-type="all-scenes-container">
+
+      <!-- Canvas背景层 -->
+      <div class="canvas-background-layer">
+        <div class="canvas-wrapper">
+          <canvas id="mainWaveCanvas" data-engine="three.js r128"></canvas>
+        </div>
+      </div>
+
+      <!-- 内容层 -->
+      <div class="scenes-content-layer">
+
+        <!-- 场景0：首屏 -->
+        <div class="scene-container" data-scene-index="0" data-active="true">
+          <div class="scene-0-text-1">
+            <div class="text-content-block" style="--duration: 2000ms; --delay: 0ms; --opacity: 1;">
+              <div class="text-large">
+                <p>Your room is distorting your sound.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene-0-text-2">
+            <div class="text-content-block" style="--duration: 2000ms; --delay: 888ms; --opacity: 1;">
+              <div class="text-large">
+                <p>But we <br>can fix<br>that.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene-0-text-3">
+            <div class="text-content-block" style="--duration: 2000ms; --delay: 888ms; --opacity: 1;">
+              <div class="text-body">
+                <p>How our software makes it happen</p>
+              </div>
+              <span class="text-body arrow-pulse">→</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 场景1 -->
+        <div class="scene-container" data-scene-index="1">
+          <div class="scene-text-right">
+            <div class="text-content-block" id="scene1Text">
+              <div class="text-body">
+                <p>Walls, ceilings and furniture all impact how sound is experienced.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 场景2 -->
+        <div class="scene-container" data-scene-index="2">
+          <div class="scene-text-left">
+            <div class="text-content-block" id="scene2Text">
+              <div class="text-body">
+                <p>Our software <br>identifies these <br>imperfections...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 场景3 -->
+        <div class="scene-container" data-scene-index="3">
+          <div class="scene-text-left">
+            <div class="text-content-block" id="scene3Text">
+              <div class="text-body">
+                <p>And fine-tunes your system to compensate for them.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 场景4：空白过渡 -->
+        <div class="scene-container" data-scene-index="4">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 结果展示区 -->
+    <div class="result-section">
+      <h2 class="result-title">
+        <p>The result? <br>Audio perfection.</p>
+      </h2>
+    </div>
+
+  </div>
+
+  <!-- Three.js r128 稳定版 - 使用可靠的CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+    // ==========================================
+    // 全局变量和配置
+    // ==========================================
+    let mainScene, mainCamera, mainRenderer;
+    let waveformGroup;
+    let scrollProgress = 0;
+    let currentSceneIndex = 0;
+    let animationFrameId;
+
+    const canvas = document.getElementById('mainWaveCanvas');
+
+    // ==========================================
+    // 初始化 Three.js 场景
+    // ==========================================
+    function initThreeScene() {
+      // 创建场景
+      mainScene = new THREE.Scene();
+      mainScene.background = null; // 透明背景
+
+      // 创建相机
+      const aspectRatio = window.innerWidth / window.innerHeight;
+      mainCamera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000);
+      mainCamera.position.z = 5;
+
+      // 创建渲染器
+      mainRenderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true
+      });
+      mainRenderer.setSize(window.innerWidth, window.innerHeight);
+      mainRenderer.setPixelRatio(window.devicePixelRatio);
+
+      // 创建波形组
+      waveformGroup = new THREE.Group();
+      mainScene.add(waveformGroup);
+
+      // 监听窗口大小变化
+      window.addEventListener('resize', onWindowResize, false);
+    }
+
+    // ==========================================
+    // 窗口大小调整
+    // ==========================================
+    function onWindowResize() {
+      mainCamera.aspect = window.innerWidth / window.innerHeight;
+      mainCamera.updateProjectionMatrix();
+      mainRenderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    // ==========================================
+    // 创建波形几何体 - 阶段1：单侧横向线条
+    // ==========================================
+    function createPhase1Waveform() {
+      clearWaveformGroup();
+
+      const lineCount = 80;
+      const lineSpacing = 0.08;
+      const material = new THREE.LineBasicMaterial({ color: 0x00ffff });
+
+      for (let i = 0; i < lineCount; i++) {
+        const points = [];
+        const y = (i - lineCount / 2) * lineSpacing;
+
+        // 创建单条线
+        points.push(new THREE.Vector3(-3, y, 0));
+        points.push(new THREE.Vector3(-1, y, 0));
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, material);
+        line.userData.index = i;
+        line.userData.phase = 'phase1';
+        waveformGroup.add(line);
+      }
+    }
+
+    // ==========================================
+    // 创建波形几何体 - 阶段2：对称双波形
+    // ==========================================
+    function createPhase2Waveform() {
+      clearWaveformGroup();
+
+      const lineCount = 80;
+      const lineSpacing = 0.08;
+
+      // 青色材质
+      const materialCyan = new THREE.LineBasicMaterial({ color: 0x00ffff });
+      // 红色材质
+      const materialRed = new THREE.LineBasicMaterial({ color: 0xff6464 });
+
+      for (let i = 0; i < lineCount; i++) {
+        const y = (i - lineCount / 2) * lineSpacing;
+
+        // 左侧青色线
+        const pointsLeft = [];
+        pointsLeft.push(new THREE.Vector3(-1.5, y, 0));
+        pointsLeft.push(new THREE.Vector3(-3, y, 0));
+        const geometryLeft = new THREE.BufferGeometry().setFromPoints(pointsLeft);
+        const lineLeft = new THREE.Line(geometryLeft, materialCyan);
+        lineLeft.userData.index = i;
+        lineLeft.userData.side = 'left';
+        lineLeft.userData.phase = 'phase2';
+        waveformGroup.add(lineLeft);
+
+        // 右侧红色线
+        const pointsRight = [];
+        pointsRight.push(new THREE.Vector3(1.5, y, 0));
+        pointsRight.push(new THREE.Vector3(3, y, 0));
+        const geometryRight = new THREE.BufferGeometry().setFromPoints(pointsRight);
+        const lineRight = new THREE.Line(geometryRight, materialRed);
+        lineRight.userData.index = i;
+        lineRight.userData.side = 'right';
+        lineRight.userData.phase = 'phase2';
+        waveformGroup.add(lineRight);
+      }
+    }
+
+    // ==========================================
+    // 创建波形几何体 - 阶段3/4：3D网格
+    // ==========================================
+    function createPhase3Waveform() {
+      clearWaveformGroup();
+
+      const gridSize = 40;
+      const gridSpacing = 0.15;
+      const material = new THREE.LineBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.8
+      });
+
+      // 创建纵向网格线
+      for (let x = -gridSize / 2; x <= gridSize / 2; x += 2) {
+        const points = [];
+        for (let z = -gridSize / 2; z <= gridSize / 2; z++) {
+          const xPos = x * gridSpacing;
+          const zPos = z * gridSpacing;
+          points.push(new THREE.Vector3(xPos, 0, zPos));
+        }
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, material);
+        line.userData.phase = 'phase3';
+        line.userData.direction = 'vertical';
+        line.userData.xIndex = x;
+        waveformGroup.add(line);
+      }
+
+      // 创建横向网格线
+      for (let z = -gridSize / 2; z <= gridSize / 2; z += 4) {
+        const points = [];
+        for (let x = -gridSize / 2; x <= gridSize / 2; x++) {
+          const xPos = x * gridSpacing;
+          const zPos = z * gridSpacing;
+          points.push(new THREE.Vector3(xPos, 0, zPos));
+        }
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, material.clone());
+        line.material.opacity = 0.3;
+        line.userData.phase = 'phase3';
+        line.userData.direction = 'horizontal';
+        line.userData.zIndex = z;
+        waveformGroup.add(line);
+      }
+    }
+
+    // ==========================================
+    // 清空波形组
+    // ==========================================
+    function clearWaveformGroup() {
+      while (waveformGroup.children.length > 0) {
+        const child = waveformGroup.children[0];
+        if (child.geometry) child.geometry.dispose();
+        if (child.material) child.material.dispose();
+        waveformGroup.remove(child);
+      }
+    }
+
+    // ==========================================
+    // 更新波形动画 - 阶段1
+    // ==========================================
+    function updatePhase1Animation(time, phaseProgress) {
+      waveformGroup.children.forEach(line => {
+        if (line.userData.phase !== 'phase1') return;
+
+        const i = line.userData.index;
+        const frequency = 0.15;
+        const amplitude = 0.8;
+        const phase = time * 0.001;
+
+        const offset = Math.sin(i * frequency + phase) * amplitude * phaseProgress;
+
+        const positions = line.geometry.attributes.position.array;
+        positions[3] = -1 + offset; // 更新终点X坐标
+
+        line.geometry.attributes.position.needsUpdate = true;
+      });
+    }
+
+    // ==========================================
+    // 更新波形动画 - 阶段2
+    // ==========================================
+    function updatePhase2Animation(time, phaseProgress) {
+      const separation = 1.5 * phaseProgress;
+
+      waveformGroup.children.forEach(line => {
+        if (line.userData.phase !== 'phase2') return;
+
+        const i = line.userData.index;
+        const frequency1 = 0.2;
+        const frequency2 = 0.15;
+        const amplitude1 = 1.0;
+        const amplitude2 = 0.6;
+        const phase = time * 0.001;
+
+        const offset =
+          Math.sin(i * frequency1 + phase) * amplitude1 +
+          Math.sin(i * frequency2 + phase * 1.5) * amplitude2;
+
+        const positions = line.geometry.attributes.position.array;
+
+        if (line.userData.side === 'left') {
+          positions[0] = -separation;
+          positions[3] = -separation - offset;
+        } else {
+          positions[0] = separation;
+          positions[3] = separation + offset;
+        }
+
+        line.geometry.attributes.position.needsUpdate = true;
+      });
+    }
+
+    // ==========================================
+    // 更新波形动画 - 阶段3/4
+    // ==========================================
+    function updatePhase3Animation(time, phaseProgress) {
+      const phase = time * 0.001;
+      const amplitude = phaseProgress < 0.5 ? 1.2 : 2.0; // 阶段4振幅更大
+
+      waveformGroup.children.forEach(line => {
+        if (line.userData.phase !== 'phase3') return;
+
+        const positions = line.geometry.attributes.position.array;
+        const pointCount = positions.length / 3;
+
+        for (let i = 0; i < pointCount; i++) {
+          const x = positions[i * 3];
+          const z = positions[i * 3 + 2];
+
+          // 复合波形公式
+          const wave =
+            Math.sin(x * 0.5 + phase) * Math.cos(z * 0.5 + phase) * amplitude +
+            Math.sin(x * 0.3 + phase * 0.7) * Math.sin(z * 0.4 + phase * 0.7) * (amplitude * 0.5);
+
+          positions[i * 3 + 1] = wave; // 更新Y坐标
+        }
+
+        line.geometry.attributes.position.needsUpdate = true;
+      });
+
+      // 旋转整个波形组
+      waveformGroup.rotation.x = -0.5 + phaseProgress * 0.2;
+      waveformGroup.rotation.y = phase * 0.1;
+    }
+
+    // ==========================================
+    // 计算滚动进度
+    // ==========================================
+    function calculateScrollProgress() {
+      const container = document.querySelector('.all-scenes-container');
+      const rect = container.getBoundingClientRect();
+      const containerHeight = container.clientHeight;
+      const viewportHeight = window.innerHeight;
+      const scrollableHeight = containerHeight - viewportHeight;
+      const scrolled = -rect.top;
+
+      scrollProgress = Math.max(0, Math.min(1, scrolled / scrollableHeight));
+
+      // 计算当前场景索引
+      const scenes = document.querySelectorAll('.scene-container');
+      let accumulatedHeight = 0;
+
+      scenes.forEach((scene, index) => {
+        const sceneHeight = scene.clientHeight;
+        accumulatedHeight += sceneHeight;
+
+        if (scrolled < accumulatedHeight) {
+          if (currentSceneIndex !== index) {
+            currentSceneIndex = index;
+            onSceneChange(index);
+          }
+        }
+      });
+
+      // 更新文字透明度
+      updateTextOpacity();
+    }
+
+    // ==========================================
+    // 场景切换
+    // ==========================================
+    function onSceneChange(sceneIndex) {
+      // 更新active属性
+      document.querySelectorAll('.scene-container').forEach((el, i) => {
+        if (i === sceneIndex) {
+          el.setAttribute('data-active', 'true');
+        } else {
+          el.removeAttribute('data-active');
+        }
+      });
+
+      // 根据场景切换波形类型
+      if (sceneIndex === 0) {
+        createPhase1Waveform();
+      } else if (sceneIndex === 1) {
+        createPhase2Waveform();
+      } else if (sceneIndex >= 2) {
+        createPhase3Waveform();
+      }
+    }
+
+    // ==========================================
+    // 更新文字透明度
+    // ==========================================
+    function updateTextOpacity() {
+      const scenes = ['scene1Text', 'scene2Text', 'scene3Text'];
+      const sceneElements = document.querySelectorAll('[data-scene-index]');
+
+      sceneElements.forEach((sceneEl, index) => {
+        if (index === 0) return; // 跳过第一个场景
+
+        const rect = sceneEl.getBoundingClientRect();
+        const sceneTop = rect.top;
+        const sceneHeight = rect.height;
+        const viewportHeight = window.innerHeight;
+
+        // 当场景进入视口时逐渐显示
+        let opacity = 0.2;
+        if (sceneTop < viewportHeight * 0.7 && sceneTop > -sceneHeight * 0.5) {
+          opacity = 1;
+        }
+
+        const textEl = document.getElementById(`scene${index}Text`);
+        if (textEl) {
+          textEl.style.setProperty('--opacity', opacity);
+        }
+      });
+    }
+
+    // ==========================================
+    // 动画循环
+    // ==========================================
+    function animate(time) {
+      animationFrameId = requestAnimationFrame(animate);
+
+      // 根据当前场景更新动画
+      if (currentSceneIndex === 0) {
+        const phaseProgress = scrollProgress * 4; // 放大进度
+        updatePhase1Animation(time, Math.min(1, phaseProgress));
+      } else if (currentSceneIndex === 1) {
+        const localProgress = (scrollProgress - 0.2) / 0.2;
+        updatePhase2Animation(time, Math.max(0, Math.min(1, localProgress)));
+      } else if (currentSceneIndex >= 2) {
+        const localProgress = (scrollProgress - 0.4) / 0.4;
+        updatePhase3Animation(time, Math.max(0, Math.min(1, localProgress)));
+      }
+
+      mainRenderer.render(mainScene, mainCamera);
+    }
+
+    // ==========================================
+    // 滚动监听
+    // ==========================================
+    let scrollTicking = false;
+
+    function handleScroll() {
+      if (!scrollTicking) {
+        window.requestAnimationFrame(() => {
+          calculateScrollProgress();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // ==========================================
+    // 初始化
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      // 等待 Three.js 加载完成
+      if (typeof THREE === 'undefined') {
+        console.error('❌ Three.js 未加载');
+        return;
+      }
+
+      initThreeScene();
+      createPhase1Waveform();
+      calculateScrollProgress();
+      animate(0);
+
+      console.log('✅ Dirac 声波动画已初始化 - Three.js r' + THREE.REVISION);
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VaultChain | Secure Crypto Infrastructure</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&family=Orbitron:wght@500;600;700&display=swap");
+
+    :root {
+      --bg: #06111f;
+      --bg-soft: #0b1730;
+      --panel: rgba(10, 24, 48, 0.62);
+      --panel-strong: rgba(10, 24, 48, 0.82);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #f8fbff;
+      --muted: #9fb1cb;
+      --gold: #f59e0b;
+      --violet: #8b5cf6;
+      --cyan: #38bdf8;
+      --green: #22c55e;
+      --red: #fb7185;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      --max-width: 1200px;
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --ease: 220ms ease;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      font-family: "Exo 2", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.18), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(139, 92, 246, 0.2), transparent 30%),
+        radial-gradient(circle at 50% 75%, rgba(245, 158, 11, 0.12), transparent 28%),
+        linear-gradient(180deg, #030712 0%, var(--bg) 52%, #050b17 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(circle at center, black 55%, transparent 92%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    img, svg { display: block; max-width: 100%; }
+    .page-shell { width: min(var(--max-width), calc(100% - 32px)); margin: 0 auto; }
+    .floating-nav { position: sticky; top: 16px; z-index: 20; margin-top: 16px; }
+    .nav-frame, .glass {
+      background: linear-gradient(180deg, rgba(17, 30, 55, 0.78), rgba(7, 15, 29, 0.74));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+    .nav-frame {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px 18px;
+      border-radius: 20px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Orbitron", sans-serif;
+      letter-spacing: 0.06em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.24), rgba(139, 92, 246, 0.24)), rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .nav-links, .tag-row, .wallet-chips { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .nav-links { color: var(--muted); font-size: 0.95rem; }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .status-pill, .tag, .metric-chip, .wallet-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--muted);
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+    .status-dot, .mini-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.7);
+      flex: 0 0 auto;
+    }
+    .cta-primary, .cta-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform var(--ease), border-color var(--ease), background-color var(--ease), box-shadow var(--ease);
+    }
+    .cta-primary { color: #fffaf1; background: linear-gradient(135deg, var(--gold), var(--violet)); box-shadow: 0 16px 40px rgba(139, 92, 246, 0.28); }
+    .cta-secondary { color: var(--text); background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.14); }
+    .cta-primary:hover, .cta-primary:focus-visible, .cta-secondary:hover, .cta-secondary:focus-visible, .wallet-chip:hover, .wallet-chip:focus-visible { transform: translateY(-1px); }
+    .cta-primary:focus-visible, .cta-secondary:focus-visible, .wallet-chip:focus-visible, .nav-links a:focus-visible { outline: 2px solid rgba(56, 189, 248, 0.95); outline-offset: 3px; }
+    main { padding: 42px 0 72px; }
+    section { margin-top: 34px; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr); gap: 24px; align-items: stretch; padding-top: 12px; }
+    .hero-copy, .hero-card, .panel-card, .security-card, .trust-card, .wallet-card, .bottom-cta { border-radius: var(--radius-xl); position: relative; overflow: hidden; }
+    .hero-copy, .hero-card, .bottom-cta { padding: 30px; }
+    .panel-card, .security-card, .wallet-card, .trust-card { padding: 24px; }
+    .hero-copy::before, .hero-card::before, .panel-card::before, .security-card::before, .wallet-card::before, .trust-card::before, .bottom-cta::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 42%);
+      pointer-events: none;
+    }
+    .eyebrow, .section-label, .small-label, .ticker-name {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.84rem;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: #d8e3f5;
+    }
+    .section-label { color: var(--gold); display: block; margin-bottom: 12px; }
+    h1, h2, h3, .numeric { margin: 0; font-family: "Orbitron", sans-serif; letter-spacing: 0.02em; text-wrap: balance; }
+    h1 { max-width: 10.5ch; font-size: clamp(2.8rem, 5vw, 5rem); line-height: 0.98; }
+    h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 10px; }
+    .headline-accent { color: var(--gold); text-shadow: 0 0 18px rgba(245, 158, 11, 0.26); }
+    .hero-copy p, .section-copy p, .card-copy, .subtle, .trust-foot { color: var(--muted); line-height: 1.7; margin: 0; }
+    .hero-copy p { margin-top: 18px; max-width: 58ch; font-size: 1.04rem; }
+    .hero-actions, .hero-metrics, .mini-grid, .security-grid, .wallet-grid, .trust-grid, .bottom-row, .price-strip { display: grid; gap: 16px; }
+    .hero-actions { margin-top: 28px; grid-template-columns: repeat(2, minmax(0, max-content)); }
+    .hero-metrics { margin-top: 26px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .mini-grid, .security-grid, .wallet-grid, .trust-grid, .bottom-row, .price-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .metric-box, .ticker-card, .chart-shell {
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .metric-box { padding: 18px; }
+    .metric-label { color: var(--muted); font-size: 0.88rem; margin-bottom: 8px; display: block; }
+    .metric-value, .ticker-price, .trust-value { font-family: "Orbitron", sans-serif; }
+    .metric-value { font-size: 1.35rem; }
+    .metric-foot { color: #d7e2f5; font-size: 0.88rem; margin-top: 8px; display: inline-flex; align-items: center; gap: 8px; }
+    .hero-card { display: grid; gap: 18px; }
+    .hero-card-top, .ticker-head, .card-head, .section-head, .chart-foot {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .ticker-card { padding: 14px; }
+    .ticker-name, .small-label { color: var(--muted); }
+    .ticker-price { margin-top: 10px; font-size: 1.08rem; }
+    .ticker-change { margin-top: 8px; font-size: 0.86rem; color: #dfe9f8; }
+    .positive { color: var(--green); }
+    .negative { color: var(--red); }
+    .chart-shell {
+      position: relative;
+      padding: 18px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.08), transparent 55%), linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+    }
+    .chart-overlay { position: absolute; top: 18px; right: 18px; display: flex; gap: 8px; }
+    .chart-foot { margin-top: 14px; align-items: center; flex-wrap: wrap; color: var(--muted); font-size: 0.9rem; }
+    .section-copy { max-width: 58ch; }
+    .panel-card { min-height: 230px; }
+    .panel-card svg { margin-top: 18px; }
+    .card-copy { margin-top: 12px; font-size: 0.98rem; }
+    .security-card h3, .wallet-card h3, .trust-card h3, .panel-card h3 { font-size: 1.15rem; }
+    .security-card ul, .wallet-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+      display: grid;
+      gap: 12px;
+      color: #dbe5f4;
+    }
+    .security-card li, .wallet-card li { display: flex; align-items: flex-start; gap: 12px; line-height: 1.6; }
+    .icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    .wallet-chip {
+      cursor: pointer;
+      transition: border-color var(--ease), background-color var(--ease), transform var(--ease);
+    }
+    .wallet-chip:hover, .wallet-chip:focus-visible { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.22); }
+    .trust-value { margin-top: 18px; font-size: 2rem; }
+    .trust-foot { margin-top: 8px; line-height: 1.65; }
+    .bottom-cta { padding-bottom: 28px; }
+    .bottom-row { margin-top: 24px; }
+    .glow-gold {
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(245, 158, 11, 0.08), 0 24px 50px rgba(245, 158, 11, 0.08);
+    }
+    .glow-violet {
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(139, 92, 246, 0.08), 0 24px 50px rgba(139, 92, 246, 0.1);
+    }
+    @media (max-width: 1100px) {
+      .hero, .mini-grid, .security-grid, .wallet-grid, .trust-grid, .bottom-row, .price-strip { grid-template-columns: 1fr; }
+      .hero-actions, .hero-metrics { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 780px) {
+      .page-shell { width: min(var(--max-width), calc(100% - 20px)); }
+      .nav-frame, .section-head, .hero-card-top, .chart-foot { flex-direction: column; align-items: flex-start; }
+      .nav-links { display: none; }
+      .hero-copy, .hero-card, .panel-card, .security-card, .wallet-card, .trust-card, .bottom-cta { padding: 22px; }
+      h1 { max-width: 100%; }
+      .hero-actions { grid-template-columns: 1fr; }
+      .nav-actions { width: 100%; justify-content: space-between; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; transition-delay: 0ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="floating-nav">
+      <div class="nav-frame">
+        <a class="brand" href="#top" aria-label="VaultChain home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L4 6.5V12C4 17.1 7.41 21.87 12 23C16.59 21.87 20 17.1 20 12V6.5L12 2Z" stroke="#F8FAFC" stroke-width="1.5"/>
+              <path d="M9.8 12.2L11.4 13.8L14.6 10.6" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          VaultChain
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#markets">Markets</a>
+          <a href="#security">Security</a>
+          <a href="#wallets">Wallets</a>
+          <a href="#trust">Trust</a>
+        </nav>
+        <div class="nav-actions">
+          <span class="status-pill"><span class="status-dot"></span>System Integrity 99.999%</span>
+          <button class="cta-secondary" type="button">Request Audit Access</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <article class="hero-copy glass">
+          <span class="eyebrow"><span class="mini-dot"></span>Institutional-grade crypto custody landing layer</span>
+          <h1>Secure capital with a <span class="headline-accent">real-time</span> execution edge.</h1>
+          <p>VaultChain combines encrypted order routing, wallet-native onboarding, and continuously monitored market telemetry in a single operating surface built for security-first crypto teams.</p>
+          <div class="hero-actions">
+            <button class="cta-primary" type="button">Start Secure Session</button>
+            <button class="cta-secondary" type="button">View Security Architecture</button>
+          </div>
+          <div class="hero-metrics">
+            <div class="metric-box">
+              <span class="metric-label">Assets under shield</span>
+              <div class="metric-value">$18.4B</div>
+              <span class="metric-foot"><span class="mini-dot"></span>Multi-region HSM coverage</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-label">Threat mitigation latency</span>
+              <div class="metric-value">42ms</div>
+              <span class="metric-foot"><span class="mini-dot"></span>Automated anomaly intercept</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-label">Cross-chain settlement</span>
+              <div class="metric-value">14 chains</div>
+              <span class="metric-foot"><span class="mini-dot"></span>Wallet-native signing flow</span>
+            </div>
+          </div>
+        </article>
+
+        <aside class="hero-card glass" aria-label="Live market preview">
+          <div class="hero-card-top">
+            <div>
+              <span class="section-label">Live Defense Console</span>
+              <h2>Market pulse with execution-safe visibility</h2>
+            </div>
+            <div class="tag-row">
+              <span class="tag">MPC Vault</span>
+              <span class="tag">AML Layer</span>
+              <span class="tag">Hardware Key Sync</span>
+            </div>
+          </div>
+          <div class="price-strip">
+            <div class="ticker-card"><div class="ticker-head"><span class="ticker-name">BTC/USD</span><span class="status-pill"><span class="status-dot"></span>Live</span></div><div class="ticker-price" id="btc-price">$64,820</div><div class="ticker-change positive" id="btc-change">+2.14% secure spread</div></div>
+            <div class="ticker-card"><div class="ticker-head"><span class="ticker-name">ETH/USD</span><span class="status-pill"><span class="status-dot"></span>Live</span></div><div class="ticker-price" id="eth-price">$3,410</div><div class="ticker-change positive" id="eth-change">+1.62% protected flow</div></div>
+            <div class="ticker-card"><div class="ticker-head"><span class="ticker-name">SOL/USD</span><span class="status-pill"><span class="status-dot"></span>Live</span></div><div class="ticker-price" id="sol-price">$148.36</div><div class="ticker-change negative" id="sol-change">-0.48% policy guarded</div></div>
+          </div>
+          <div class="chart-shell">
+            <div class="chart-overlay">
+              <span class="metric-chip"><span class="mini-dot"></span><strong id="chart-delta">+3.42%</strong> 24h</span>
+              <span class="metric-chip"><strong id="threat-score">0.002%</strong> risk score</span>
+            </div>
+            <svg viewBox="0 0 640 320" role="img" aria-labelledby="chart-title chart-desc">
+              <title id="chart-title">Secure execution chart preview</title>
+              <desc id="chart-desc">A smooth area chart showing protected market momentum.</desc>
+              <defs>
+                <linearGradient id="area-fill" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.55"/>
+                  <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.02"/>
+                </linearGradient>
+                <linearGradient id="line-stroke" x1="0" x2="1" y1="0.2" y2="1">
+                  <stop offset="0%" stop-color="#F59E0B"/>
+                  <stop offset="100%" stop-color="#38BDF8"/>
+                </linearGradient>
+              </defs>
+              <g stroke="rgba(255,255,255,0.08)" stroke-width="1">
+                <line x1="40" y1="48" x2="600" y2="48"/>
+                <line x1="40" y1="112" x2="600" y2="112"/>
+                <line x1="40" y1="176" x2="600" y2="176"/>
+                <line x1="40" y1="240" x2="600" y2="240"/>
+              </g>
+              <path id="area-path" fill="url(#area-fill)"></path>
+              <path id="line-path" fill="none" stroke="url(#line-stroke)" stroke-width="4" stroke-linecap="round"></path>
+              <g fill="#DCE7F8" font-family="Exo 2, sans-serif" font-size="12">
+                <text x="40" y="282">00:00</text><text x="176" y="282">06:00</text><text x="312" y="282">12:00</text><text x="448" y="282">18:00</text><text x="560" y="282">24:00</text>
+              </g>
+            </svg>
+            <div class="chart-foot">
+              <span>Encrypted order flow preview updated <strong id="last-updated">just now</strong></span>
+              <span>Confidence band enforced by policy engine and anomaly screening</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="markets">
+        <div class="section-head">
+          <div class="section-copy">
+            <span class="section-label">Operational Snapshot</span>
+            <h2>Real-time charts previewed for fast reads, not noisy dashboards.</h2>
+            <p>Each panel keeps one high-signal story visible: liquidity health, custody posture, and settlement certainty. The goal is operator confidence under pressure.</p>
+          </div>
+          <span class="status-pill"><span class="status-dot"></span>Audit stream synced</span>
+        </div>
+        <div class="mini-grid">
+          <article class="panel-card glass">
+            <div class="card-head"><div><span class="small-label">Protected Liquidity</span><h3>$2.84B routed today</h3></div><span class="tag">Spread guard active</span></div>
+            <p class="card-copy">Order flow fans out across approved venues only, with deterministic failover and slippage ceilings enforced before signature release.</p>
+            <svg viewBox="0 0 320 120" aria-hidden="true"><path d="M14 98C44 92 53 48 82 52C110 56 115 78 142 72C170 66 173 33 202 34C228 35 246 86 272 70C288 60 296 52 306 34" fill="none" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/></svg>
+          </article>
+          <article class="panel-card glass">
+            <div class="card-head"><div><span class="small-label">Custody Posture</span><h3>0 critical alerts</h3></div><span class="tag">Policy-bound</span></div>
+            <p class="card-copy">Transaction simulation, address screening, and rule evaluation finish before signing. High-risk routes never reach the approval layer.</p>
+            <svg viewBox="0 0 320 120" aria-hidden="true">
+              <rect x="14" y="60" width="44" height="40" rx="10" fill="rgba(245,158,11,0.22)" stroke="#F59E0B"/>
+              <rect x="76" y="44" width="44" height="56" rx="10" fill="rgba(245,158,11,0.16)" stroke="#F59E0B"/>
+              <rect x="138" y="24" width="44" height="76" rx="10" fill="rgba(56,189,248,0.16)" stroke="#38BDF8"/>
+              <rect x="200" y="34" width="44" height="66" rx="10" fill="rgba(139,92,246,0.16)" stroke="#8B5CF6"/>
+              <rect x="262" y="18" width="44" height="82" rx="10" fill="rgba(34,197,94,0.16)" stroke="#22C55E"/>
+            </svg>
+          </article>
+          <article class="panel-card glass">
+            <div class="card-head"><div><span class="small-label">Settlement Confidence</span><h3>99.97% finality assurance</h3></div><span class="tag">Cross-chain verified</span></div>
+            <p class="card-copy">A staged confirmation ladder detects mempool anomalies, chain congestion, and validator drift before settlement windows are widened.</p>
+            <svg viewBox="0 0 320 120" aria-hidden="true">
+              <path d="M20 84L80 54L138 72L198 28L258 48L300 18" fill="none" stroke="#8B5CF6" stroke-width="3.5" stroke-linecap="round"/>
+              <circle cx="20" cy="84" r="5" fill="#F59E0B"/><circle cx="80" cy="54" r="5" fill="#F59E0B"/><circle cx="138" cy="72" r="5" fill="#F59E0B"/><circle cx="198" cy="28" r="5" fill="#38BDF8"/><circle cx="258" cy="48" r="5" fill="#38BDF8"/><circle cx="300" cy="18" r="5" fill="#22C55E"/>
+            </svg>
+          </article>
+        </div>
+      </section>
+
+      <section id="security">
+        <div class="section-head">
+          <div class="section-copy">
+            <span class="section-label">Security Stack</span>
+            <h2>Security features engineered as active controls, not badge decoration.</h2>
+            <p>The landing experience makes the security model legible: fewer blind spots, explicit policies, and fast verification loops for every critical action.</p>
+          </div>
+          <span class="status-pill"><span class="status-dot"></span>Continuous control testing</span>
+        </div>
+        <div class="security-grid">
+          <article class="security-card glass glow-gold">
+            <div class="icon-box" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6V11.5C4 16.6 7.4 21.3 12 22.5C16.6 21.3 20 16.6 20 11.5V6L12 2Z" stroke="#F59E0B" stroke-width="1.6"/><path d="M9.8 11.8L11.5 13.5L14.8 10.2" stroke="#F8FAFC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>MPC signing with staged approvals</h3>
+            <p class="card-copy">Key shares never meet. Signature release requires role-aware approval ladders and transaction simulation passing before threshold execution.</p>
+            <ul>
+              <li><span class="mini-dot"></span><span>Threshold signatures isolate compromise radius across operators and regions.</span></li>
+              <li><span class="mini-dot"></span><span>Approval chains adapt to transfer size, destination class, and runtime policy severity.</span></li>
+              <li><span class="mini-dot"></span><span>High-value flows can require hardware presence without blocking routine treasury actions.</span></li>
+            </ul>
+          </article>
+          <article class="security-card glass glow-violet">
+            <div class="icon-box" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 10.5C5 6.91 7.91 4 11.5 4C15.09 4 18 6.91 18 10.5V13.5C18 17.09 15.09 20 11.5 20C7.91 20 5 17.09 5 13.5V10.5Z" stroke="#8B5CF6" stroke-width="1.6"/><path d="M11.5 10V14" stroke="#F8FAFC" stroke-width="1.8" stroke-linecap="round"/><circle cx="11.5" cy="16.8" r="1.1" fill="#F8FAFC"/></svg></div>
+            <h3>Adaptive threat screening before execution</h3>
+            <p class="card-copy">Policy engine, contract simulation, sanctions screening, and anomaly scoring converge into one pre-execution decision path.</p>
+            <ul>
+              <li><span class="mini-dot"></span><span>Address and contract risk scoring executes before signature approval prompts appear.</span></li>
+              <li><span class="mini-dot"></span><span>Failed simulations downgrade risky calls instead of surfacing them as operator choices.</span></li>
+              <li><span class="mini-dot"></span><span>Alert density stays low because rules are contextual, not blanket heuristics.</span></li>
+            </ul>
+          </article>
+          <article class="security-card glass">
+            <div class="icon-box" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="12" rx="3" stroke="#38BDF8" stroke-width="1.6"/><path d="M8 11H16" stroke="#F8FAFC" stroke-width="1.8" stroke-linecap="round"/><path d="M8 14H12" stroke="#F8FAFC" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+            <h3>Immutable audit timeline</h3>
+            <p class="card-copy">Every policy decision, signer interaction, and settlement milestone is chronologically sealed for internal review and external assurance.</p>
+            <ul>
+              <li><span class="mini-dot"></span><span>Review teams can reconstruct intent, state, and approvals without correlating scattered logs.</span></li>
+              <li><span class="mini-dot"></span><span>Time-bounded access snapshots support regulator and enterprise due diligence workflows.</span></li>
+              <li><span class="mini-dot"></span><span>Versioned policy history prevents invisible drift in approval or screening logic.</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="wallets">
+        <div class="section-head">
+          <div class="section-copy">
+            <span class="section-label">Wallet Integration</span>
+            <h2>Wallet-native onboarding built for teams, treasury ops, and protocol signers.</h2>
+            <p>The interface connects familiar wallets without turning security into a fragmented experience. Native handoff meets governed execution.</p>
+          </div>
+          <span class="status-pill"><span class="status-dot"></span>14 chain adapters online</span>
+        </div>
+        <div class="wallet-grid">
+          <article class="wallet-card glass">
+            <h3>Wallet matrix</h3>
+            <p class="card-copy">Operator wallets, treasury wallets, and hardware keys can coexist under one policy envelope.</p>
+            <div class="wallet-chips" aria-label="Supported wallets">
+              <button class="wallet-chip" type="button">MetaMask Institutional</button>
+              <button class="wallet-chip" type="button">Ledger Enterprise</button>
+              <button class="wallet-chip" type="button">Safe</button>
+              <button class="wallet-chip" type="button">WalletConnect</button>
+              <button class="wallet-chip" type="button">Coinbase Wallet SDK</button>
+              <button class="wallet-chip" type="button">Fireblocks API Bridge</button>
+            </div>
+          </article>
+          <article class="wallet-card glass glow-violet">
+            <h3>Multi-chain route control</h3>
+            <p class="card-copy">Routing policies vary by chain risk, finality profile, and treasury limits without forcing separate operating surfaces.</p>
+            <div class="wallet-chips" aria-label="Supported chains">
+              <span class="wallet-chip">Bitcoin</span><span class="wallet-chip">Ethereum</span><span class="wallet-chip">Solana</span><span class="wallet-chip">Base</span><span class="wallet-chip">Arbitrum</span><span class="wallet-chip">Polygon</span>
+            </div>
+            <ul>
+              <li><span class="mini-dot"></span><span>One approval surface controls transfers, staking, swaps, and treasury segmentation.</span></li>
+              <li><span class="mini-dot"></span><span>Per-chain controls tune confirmation thresholds and contract interaction limits.</span></li>
+            </ul>
+          </article>
+          <article class="wallet-card glass glow-gold">
+            <h3>Fast secure activation</h3>
+            <p class="card-copy">Onboarding is progressive: verify identity, bind wallet, simulate permissions, then unlock governed execution.</p>
+            <ul>
+              <li><span class="mini-dot"></span><span>Hardware-backed users can complete secure enrollment without leaving the flow.</span></li>
+              <li><span class="mini-dot"></span><span>Role templates shorten setup time for desk leads, finance, and compliance operators.</span></li>
+              <li><span class="mini-dot"></span><span>Session health stays visible while signatures remain isolated from the UI layer.</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="trust">
+        <div class="section-head">
+          <div class="section-copy">
+            <span class="section-label">Trust Indicators</span>
+            <h2>Signal trust with proof, uptime, and control clarity.</h2>
+            <p>Serious fintech and crypto buyers look for operational evidence. These indicators anchor the page around resilience rather than marketing abstraction.</p>
+          </div>
+          <span class="status-pill"><span class="status-dot"></span>Third-party review cycle active</span>
+        </div>
+        <div class="trust-grid">
+          <article class="trust-card glass"><h3>99.999% platform availability</h3><div class="trust-value">24/7</div><p class="trust-foot">Active-active regions, signed failover paths, and isolated control planes keep treasury execution available during volatile market windows.</p></article>
+          <article class="trust-card glass glow-gold"><h3>247M screened transactions</h3><div class="trust-value">0.002%</div><p class="trust-foot">Risk escalation ratio stays low because threat filters execute before approval prompts, not after operational fatigue sets in.</p></article>
+          <article class="trust-card glass glow-violet"><h3>Enterprise assurance ready</h3><div class="trust-value">SOC 2+</div><p class="trust-foot">Audit exports, role history, and immutable policy records support regulated buyers evaluating custody and infrastructure providers.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <article class="bottom-cta glass">
+          <span class="section-label">Deployment CTA</span>
+          <h2>Launch a security-first crypto front door that looks fast because it is controlled.</h2>
+          <p class="card-copy">Use this visual system for product launch, enterprise demand capture, or investor-facing infrastructure positioning. It reads like a live platform, not a static brochure.</p>
+          <div class="bottom-row">
+            <div class="trust-card glass"><h3>Governed access</h3><p class="trust-foot">Role-based onboarding, time-boxed sessions, and approval ladders visible from the first screen.</p></div>
+            <div class="trust-card glass"><h3>Measured transparency</h3><p class="trust-foot">Live preview components create urgency without pretending to be a production trading terminal.</p></div>
+            <div class="trust-card glass"><h3>Modern fintech feel</h3><p class="trust-foot">Glassmorphism, hard contrast, and sparse neon cues keep the experience premium instead of noisy.</p></div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <script>
+    // Lightweight data simulation keeps the landing page self-contained.
+    (function () {
+      const priceNodes = {
+        btc: { price: document.getElementById("btc-price"), change: document.getElementById("btc-change"), base: 64820, variance: 420 },
+        eth: { price: document.getElementById("eth-price"), change: document.getElementById("eth-change"), base: 3410, variance: 55 },
+        sol: { price: document.getElementById("sol-price"), change: document.getElementById("sol-change"), base: 148.36, variance: 6.1 }
+      };
+      const linePath = document.getElementById("line-path");
+      const areaPath = document.getElementById("area-path");
+      const chartDelta = document.getElementById("chart-delta");
+      const threatScore = document.getElementById("threat-score");
+      const lastUpdated = document.getElementById("last-updated");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let series = [42, 44, 46, 45, 49, 55, 53, 58, 60, 59, 63, 68, 65, 71, 74, 79];
+
+      function formatPrice(value) {
+        if (value >= 1000) return "$" + value.toLocaleString("en-US", { maximumFractionDigits: 0 });
+        return "$" + value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      // SVG paths keep the chart preview fast and dependency-free.
+      function buildSmoothPath(values, width, height, padding) {
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const spread = Math.max(max - min, 1);
+        const step = (width - padding * 2) / (values.length - 1);
+        const points = values.map((value, index) => {
+          const x = padding + index * step;
+          const y = height - padding - ((value - min) / spread) * (height - padding * 2);
+          return { x, y };
+        });
+        let path = "M " + points[0].x.toFixed(2) + " " + points[0].y.toFixed(2);
+        for (let i = 0; i < points.length - 1; i += 1) {
+          const current = points[i];
+          const next = points[i + 1];
+          const cx = (current.x + next.x) / 2;
+          path += " C " + cx.toFixed(2) + " " + current.y.toFixed(2) + ", " + cx.toFixed(2) + " " + next.y.toFixed(2) + ", " + next.x.toFixed(2) + " " + next.y.toFixed(2);
+        }
+        const baseY = height - padding;
+        return { line: path, area: path + " L " + points[points.length - 1].x.toFixed(2) + " " + baseY.toFixed(2) + " L " + points[0].x.toFixed(2) + " " + baseY.toFixed(2) + " Z" };
+      }
+
+      function updateChart() {
+        const nextValue = Math.max(32, series[series.length - 1] + (Math.random() - 0.28) * 6);
+        series = [...series.slice(1), Number(nextValue.toFixed(2))];
+        const paths = buildSmoothPath(series, 640, 320, 40);
+        linePath.setAttribute("d", paths.line);
+        areaPath.setAttribute("d", paths.area);
+        const delta = ((series[series.length - 1] - series[0]) / series[0]) * 100;
+        chartDelta.textContent = (delta >= 0 ? "+" : "") + delta.toFixed(2) + "%";
+        threatScore.textContent = (0.0015 + Math.random() * 0.0012).toFixed(3) + "%";
+        lastUpdated.textContent = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+      }
+
+      function updatePrices() {
+        Object.values(priceNodes).forEach((asset) => {
+          const next = asset.base + (Math.random() - 0.5) * asset.variance;
+          const change = ((next - asset.base) / asset.base) * 100;
+          asset.price.textContent = formatPrice(next);
+          asset.change.textContent = (change >= 0 ? "+" : "") + change.toFixed(2) + "% policy guarded";
+          asset.change.classList.toggle("positive", change >= 0);
+          asset.change.classList.toggle("negative", change < 0);
+        });
+      }
+
+      updateChart();
+      updatePrices();
+      if (!reduceMotion) {
+        window.setInterval(() => {
+          updateChart();
+          updatePrices();
+        }, 2400);
+      }
+    }());
+  </script>
+</body>
+</html>

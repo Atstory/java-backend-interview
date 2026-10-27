@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dirac 声波动画 - 真实1:1复刻</title>
+
+  <style>
+    /* 重置样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ==========================================
+       CSS变量系统 - 从官网提取
+       ========================================== */
+    :root {
+      /* 间距变量 */
+      --spacing: .25rem;
+      --spacing-space-xs: .75rem;
+      --spacing-space-sm: 1.5rem;
+      --spacing-space-md: 2rem;
+      --spacing-space-lg: 3rem;
+      --spacing-space-xl: 4rem;
+      --spacing-space-2xl: 5rem;
+      --spacing-space-3xl: 6rem;
+      --spacing-space-new-xl: 5.25rem;
+      --spacing-space-nav-lg: 5rem;
+
+      /* 字体变量 */
+      --text-body: 1.1875rem;
+      --text-body--letter-spacing: 0;
+      --text-large: 2.6875rem;
+      --text-large--font-weight: 300;
+      --text-large--line-height: 1.11628;
+      --text-large--letter-spacing: -.0075em;
+      --text-xl: 4.1875rem;
+      --text-xl--letter-spacing: -.01em;
+      --text-xxl: 5.6875rem;
+      --text-xxl--letter-spacing: -.0125em;
+
+      /* 颜色变量 */
+      --color-dark: #323232;
+      --color-light-2: #c8c8c8;
+      --color-mid-2: #959595;
+      --color-bord-normal: #dedede;
+      --color-dirac-rc: #3590f1;
+      --color-dirac-rc-dark: #3590f1;
+      --color-dirac-rc-limited: #9dcdff;
+      --color-dirac-bc: #ab96ff;
+      --color-dirac-art: #3ebd99;
+      --color-dirac-art-dark: #2a8c6e;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+      font-weight: 300;
+      font-size: var(--text-body);
+    }
+
+    /* ==========================================
+       布局类 - 从官网提取
+       ========================================== */
+    .page-bleed {
+      margin-left: calc(-1 * var(--spacing-space-sm));
+      margin-right: calc(-1 * var(--spacing-space-sm));
+    }
+
+    @media (min-width: 768px) {
+      .page-bleed {
+        margin-left: calc(-1 * var(--spacing-space-md));
+        margin-right: calc(-1 * var(--spacing-space-md));
+      }
+    }
+
+    .grid-responsive {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+    }
+
+    /* ==========================================
+       主容器结构
+       ========================================== */
+    .gap-y-space-2xl {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-space-2xl);
+    }
+
+    @media (min-width: 768px) {
+      .gap-y-space-2xl {
+        gap: var(--spacing-space-3xl);
+      }
+    }
+
+    /* 场景容器 */
+    .relative {
+      position: relative;
+    }
+
+    .absolute {
+      position: absolute;
+    }
+
+    .sticky {
+      position: sticky;
+    }
+
+    .col-span-full {
+      grid-column: 1 / -1;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .h-full {
+      height: 100%;
+    }
+
+    .font-light {
+      font-weight: 300;
+    }
+
+    /* Canvas层 */
+    .inset-0 {
+      inset: 0;
+    }
+
+    .z-0 {
+      z-index: 0;
+    }
+
+    .z-10 {
+      z-index: 10;
+    }
+
+    .pointer-events-none {
+      pointer-events: none;
+    }
+
+    .transition-opacity {
+      transition-property: opacity;
+    }
+
+    .duration-500 {
+      transition-duration: 500ms;
+    }
+
+    #mainWaveCanvas {
+      max-height: 100svh;
+    }
+
+    /* 内容层 */
+    .all-scenes-container--inner {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* 场景容器 */
+    .scene-container {
+      position: relative;
+      width: 100%;
+      padding: 0 var(--spacing-space-sm);
+    }
+
+    /* 场景0: 特殊高度计算 */
+    .scene-container[data-scene-index="0"] {
+      aspect-ratio: 1;
+      height: calc(100svh - var(--spacing-space-nav-lg));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* 场景1-4: 110vh */
+    .scene-container[data-scene-index="1"],
+    .scene-container[data-scene-index="2"],
+    .scene-container[data-scene-index="3"],
+    .scene-container[data-scene-index="4"] {
+      height: 110vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .scene-container[data-scene-index="1"],
+      .scene-container[data-scene-index="2"],
+      .scene-container[data-scene-index="3"],
+      .scene-container[data-scene-index="4"] {
+        height: 80vh;
+        align-items: center;
+      }
+    }
+
+    /* ==========================================
+       文字样式 - 使用CSS变量动画
+       ========================================== */
+    .ease-dirac {
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .opacity-var {
+      opacity: var(--opacity, 0.2);
+    }
+
+    .transition-opacity {
+      transition-property: opacity;
+    }
+
+    .delay-var {
+      transition-delay: var(--delay, 0ms);
+    }
+
+    .duration-var {
+      transition-duration: var(--duration, 400ms);
+    }
+
+    /* 文字大小 */
+    .text-body {
+      font-size: var(--text-body);
+      letter-spacing: var(--text-body--letter-spacing);
+    }
+
+    .text-large {
+      font-size: var(--text-large);
+      font-weight: var(--text-large--font-weight);
+      line-height: var(--text-large--line-height);
+      letter-spacing: var(--text-large--letter-spacing);
+    }
+
+    .text-xl {
+      font-size: var(--text-xl);
+      letter-spacing: var(--text-xl--letter-spacing);
+    }
+
+    /* 文字平衡 */
+    .text-balance {
+      text-wrap: balance;
+    }
+
+    /* 隐藏屏幕阅读器内容 */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* ==========================================
+       场景0文字布局
+       ========================================== */
+    .scene-0-text {
+      width: 72.727273%; /* 8/11 */
+    }
+
+    .top-0 {
+      top: 0;
+    }
+
+    .ml-auto {
+      margin-left: auto;
+    }
+
+    .mb-space-sm {
+      margin-bottom: var(--spacing-space-sm);
+    }
+
+    .mt-auto {
+      margin-top: auto;
+    }
+
+    .self-end {
+      align-self: flex-end;
+    }
+
+    .justify-end {
+      justify-content: flex-end;
+      display: flex;
+    }
+
+    /* ==========================================
+       其他场景文字布局
+       ========================================== */
+    .scene-text-container {
+      width: 50%;
+    }
+
+    @media (min-width: 768px) {
+      .scene-0-text {
+        width: 100%;
+      }
+
+      .text-large {
+        font-size: var(--text-xl);
+      }
+    }
+
+    /* 箭头动画 */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .animate-pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .rotate-90 {
+      transform: rotate(90deg);
+    }
+
+    .origin-center {
+      transform-origin: center;
+    }
+
+    .table {
+      display: table;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gap-y-space-2xl">
+
+    <!-- 隐藏的标题（辅助功能） -->
+    <h1 class="sr-only" id="dirac-start-page">Dirac – Start page</h1>
+
+    <!-- 所有场景容器 -->
+    <div class="relative col-span-full w-full font-light" data-type="all-scenes-container">
+
+      <!-- Canvas背景层 - 绝对定位 -->
+      <div class="absolute inset-0 z-0 h-full w-full">
+        <div class="page-bleed h-full">
+          <canvas
+            id="mainWaveCanvas"
+            class="pointer-events-none sticky inset-0 z-10 h-full w-full transition-opacity duration-500"
+            data-engine="three.js r128">
+          </canvas>
+        </div>
+      </div>
+
+      <!-- 内容层 - 相对定位 -->
+      <div class="all-scenes-container--inner">
+
+        <!-- 场景0: 首屏 -->
+        <div class="scene-container group" data-type="scene-container" data-scene-index="0" data-active="true">
+
+          <div class="scene-0-text top-0">
+            <div style="--duration: 2000ms; --delay: 0ms; --opacity: 1;"
+                 class="ease-dirac opacity-var transition-opacity delay-var duration-var">
+              <div class="text-large">
+                <p>Your room is distorting your sound.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene-0-text ml-auto mb-space-sm mt-auto self-end">
+            <div style="--duration: 2000ms; --delay: 888ms; --opacity: 1;"
+                 class="ease-dirac opacity-var transition-opacity delay-var duration-var">
+              <div class="text-large justify-end">
+                <p>But we <br>can fix<br>that.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="scene-0-text">
+            <div style="--duration: 2000ms; --delay: 888ms; --opacity: 1;"
+                 class="ease-dirac opacity-var transition-opacity delay-var duration-var">
+              <div class="text-body text-balance">
+                <p>How our software makes it happen</p>
+              </div>
+              <span class="text-body table origin-center rotate-90 animate-pulse">→</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 场景1 -->
+        <div class="scene-container group" data-type="scene-container" data-scene-index="1">
+          <div class="scene-text-container ml-auto" id="scene1">
+            <div style="--duration: 400ms; --delay: 0ms; --opacity: 0.2;"
+                 class="ease-dirac opacity-var transition-opacity delay-var duration-var">
+              <div class="text-body text-balance">
+                <p>Walls, ceilings and furniture all impact how sound is experienced.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 场景2 -->
+        <div class="scene-container group" data-type="scene-container" data-scene-index="2">
+          <div class="scene-text-container" id="scene2">
+            <div style="--duration: 400ms; --delay: 0ms; --opacity: 0.2;"
+                 class="ease-dirac opacity-var transition-opacity delay-var duration-var">
+              <div class="text-body text-balance">
+                <p>Our software <br>identifies these <br>imperfections...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 场景3 -->
+        <div class="scene-container group" data-type="scene-container" data-scene-index="3">
+          <div class="scene-text-container" id="scene3">
+            <div style="--duration: 400ms; --delay: 0ms; --opacity: 0.2;"
+                 class="ease-dirac opacity-var transition-opacity delay-var duration-var">
+              <div class="text-body text-balance">
+                <p>And fine-tunes your system to compensate for them.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 场景4: 空白过渡 -->
+        <div class="scene-container group" data-type="scene-container" data-scene-index="4">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 结果展示区 -->
+    <div style="padding: 0 var(--spacing-space-sm);">
+      <h2 class="text-large" style="width: 50%; margin-bottom: var(--spacing-space-md);">
+        <p>The result? <br>Audio perfection.</p>
+      </h2>
+    </div>
+
+  </div>
+
+  <!-- Three.js r128 CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+    // ==========================================
+    // 1:1 复刻 - 基于官网真实数据
+    // ==========================================
+
+    console.log('🎯 开始初始化 Dirac 波形动画...');
+
+    // 全局变量
+    let mainScene, mainCamera, mainRenderer;
+    let waveformGroup;
+    let scrollProgress = 0;
+    let currentSceneIndex = 0;
+
+    const canvas = document.getElementById('mainWaveCanvas');
+
+    // ==========================================
+    // 初始化 Three.js
+    // ==========================================
+    function initThreeJS() {
+      if (typeof THREE === 'undefined') {
+        console.error('❌ Three.js 未加载');
+        return false;
+      }
+
+      // 创建场景
+      mainScene = new THREE.Scene();
+
+      // 创建相机
+      const aspect = window.innerWidth / window.innerHeight;
+      mainCamera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
+      mainCamera.position.z = 5;
+
+      // 创建渲染器
+      mainRenderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true
+      });
+      mainRenderer.setSize(window.innerWidth, window.innerHeight);
+      mainRenderer.setPixelRatio(window.devicePixelRatio);
+
+      // 创建波形组
+      waveformGroup = new THREE.Group();
+      mainScene.add(waveformGroup);
+
+      // 窗口调整
+      window.addEventListener('resize', () => {
+        mainCamera.aspect = window.innerWidth / window.innerHeight;
+        mainCamera.updateProjectionMatrix();
+        mainRenderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      console.log('✅ Three.js 初始化完成 - r' + THREE.REVISION);
+      return true;
+    }
+
+    // ==========================================
+    // 创建波形 - 阶段1
+    // ==========================================
+    function createPhase1() {
+      clearWaveform();
+
+      const lineCount = 80;
+      const spacing = 0.08;
+      const material = new THREE.LineBasicMaterial({ color: 0x00ffff });
+
+      for (let i = 0; i < lineCount; i++) {
+        const y = (i - lineCount / 2) * spacing;
+        const points = [
+          new THREE.Vector3(-3, y, 0),
+          new THREE.Vector3(-1, y, 0)
+        ];
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, material);
+        line.userData = { index: i, phase: 1 };
+        waveformGroup.add(line);
+      }
+    }
+
+    // ==========================================
+    // 创建波形 - 阶段2
+    // ==========================================
+    function createPhase2() {
+      clearWaveform();
+
+      const lineCount = 80;
+      const spacing = 0.08;
+
+      for (let i = 0; i < lineCount; i++) {
+        const y = (i - lineCount / 2) * spacing;
+
+        // 青色左侧
+        const pointsL = [
+          new THREE.Vector3(-1.5, y, 0),
+          new THREE.Vector3(-3, y, 0)
+        ];
+        const geometryL = new THREE.BufferGeometry().setFromPoints(pointsL);
+        const lineL = new THREE.Line(geometryL, new THREE.LineBasicMaterial({ color: 0x00ffff }));
+        lineL.userData = { index: i, phase: 2, side: 'left' };
+        waveformGroup.add(lineL);
+
+        // 红色右侧
+        const pointsR = [
+          new THREE.Vector3(1.5, y, 0),
+          new THREE.Vector3(3, y, 0)
+        ];
+        const geometryR = new THREE.BufferGeometry().setFromPoints(pointsR);
+        const lineR = new THREE.Line(geometryR, new THREE.LineBasicMaterial({ color: 0xff6464 }));
+        lineR.userData = { index: i, phase: 2, side: 'right' };
+        waveformGroup.add(lineR);
+      }
+    }
+
+    // ==========================================
+    // 创建波形 - 阶段3
+    // ==========================================
+    function createPhase3() {
+      clearWaveform();
+
+      const gridSize = 40;
+      const spacing = 0.15;
+      const material = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 });
+
+      // 纵向线
+      for (let x = -gridSize / 2; x <= gridSize / 2; x += 2) {
+        const points = [];
+        for (let z = -gridSize / 2; z <= gridSize / 2; z++) {
+          points.push(new THREE.Vector3(x * spacing, 0, z * spacing));
+        }
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, material);
+        line.userData = { phase: 3, direction: 'vertical', xIndex: x };
+        waveformGroup.add(line);
+      }
+
+      // 横向线
+      for (let z = -gridSize / 2; z <= gridSize / 2; z += 4) {
+        const points = [];
+        for (let x = -gridSize / 2; x <= gridSize / 2; x++) {
+          points.push(new THREE.Vector3(x * spacing, 0, z * spacing));
+        }
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geometry, material.clone());
+        line.material.opacity = 0.3;
+        line.userData = { phase: 3, direction: 'horizontal', zIndex: z };
+        waveformGroup.add(line);
+      }
+    }
+
+    // ==========================================
+    // 清空波形
+    // ==========================================
+    function clearWaveform() {
+      while (waveformGroup.children.length > 0) {
+        const child = waveformGroup.children[0];
+        if (child.geometry) child.geometry.dispose();
+        if (child.material) child.material.dispose();
+        waveformGroup.remove(child);
+      }
+    }
+
+    // ==========================================
+    // 更新动画 - 阶段1
+    // ==========================================
+    function updatePhase1(time, progress) {
+      waveformGroup.children.forEach(line => {
+        if (line.userData.phase !== 1) return;
+
+        const i = line.userData.index;
+        const offset = Math.sin(i * 0.15 + time * 0.001) * 0.8 * progress;
+
+        const pos = line.geometry.attributes.position.array;
+        pos[3] = -1 + offset;
+        line.geometry.attributes.position.needsUpdate = true;
+      });
+    }
+
+    // ==========================================
+    // 更新动画 - 阶段2
+    // ==========================================
+    function updatePhase2(time, progress) {
+      const sep = 1.5 * progress;
+
+      waveformGroup.children.forEach(line => {
+        if (line.userData.phase !== 2) return;
+
+        const i = line.userData.index;
+        const offset =
+          Math.sin(i * 0.2 + time * 0.001) * 1.0 +
+          Math.sin(i * 0.15 + time * 0.0015) * 0.6;
+
+        const pos = line.geometry.attributes.position.array;
+
+        if (line.userData.side === 'left') {
+          pos[0] = -sep;
+          pos[3] = -sep - offset;
+        } else {
+          pos[0] = sep;
+          pos[3] = sep + offset;
+        }
+
+        line.geometry.attributes.position.needsUpdate = true;
+      });
+    }
+
+    // ==========================================
+    // 更新动画 - 阶段3
+    // ==========================================
+    function updatePhase3(time, progress) {
+      const phase = time * 0.001;
+      const amp = progress < 0.5 ? 1.2 : 2.0;
+
+      waveformGroup.children.forEach(line => {
+        if (line.userData.phase !== 3) return;
+
+        const pos = line.geometry.attributes.position.array;
+        const count = pos.length / 3;
+
+        for (let i = 0; i < count; i++) {
+          const x = pos[i * 3];
+          const z = pos[i * 3 + 2];
+
+          const wave =
+            Math.sin(x * 0.5 + phase) * Math.cos(z * 0.5 + phase) * amp +
+            Math.sin(x * 0.3 + phase * 0.7) * Math.sin(z * 0.4 + phase * 0.7) * (amp * 0.5);
+
+          pos[i * 3 + 1] = wave;
+        }
+
+        line.geometry.attributes.position.needsUpdate = true;
+      });
+
+      waveformGroup.rotation.x = -0.5 + progress * 0.2;
+      waveformGroup.rotation.y = phase * 0.1;
+    }
+
+    // ==========================================
+    // 计算滚动进度
+    // ==========================================
+    function calculateScroll() {
+      const container = document.querySelector('[data-type="all-scenes-container"]');
+      const rect = container.getBoundingClientRect();
+
+      const h = container.clientHeight;
+      const vh = window.innerHeight;
+      const scrollable = h - vh;
+      const scrolled = -rect.top;
+
+      scrollProgress = Math.max(0, Math.min(1, scrolled / scrollable));
+
+      // 计算场景
+      const scenes = document.querySelectorAll('[data-scene-index]');
+      let acc = 0;
+
+      scenes.forEach((scene, idx) => {
+        acc += scene.clientHeight;
+        if (scrolled < acc && currentSceneIndex !== idx) {
+          currentSceneIndex = idx;
+          onSceneChange(idx);
+        }
+      });
+
+      // 更新文字透明度
+      updateTextOpacity();
+    }
+
+    // ==========================================
+    // 场景切换
+    // ==========================================
+    function onSceneChange(idx) {
+      document.querySelectorAll('[data-scene-index]').forEach((el, i) => {
+        if (i === idx) {
+          el.setAttribute('data-active', 'true');
+        } else {
+          el.removeAttribute('data-active');
+        }
+      });
+
+      if (idx === 0) createPhase1();
+      else if (idx === 1) createPhase2();
+      else if (idx >= 2) createPhase3();
+
+      console.log('🎬 切换到场景', idx);
+    }
+
+    // ==========================================
+    // 更新文字透明度
+    // ==========================================
+    function updateTextOpacity() {
+      ['scene1', 'scene2', 'scene3'].forEach((id, idx) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        const scene = el.closest('[data-scene-index]');
+        const rect = scene.getBoundingClientRect();
+        const top = rect.top;
+        const h = rect.height;
+        const vh = window.innerHeight;
+
+        let opacity = 0.2;
+        if (top < vh * 0.7 && top > -h * 0.5) {
+          opacity = 1;
+        }
+
+        el.querySelector('div').style.setProperty('--opacity', opacity);
+      });
+    }
+
+    // ==========================================
+    // 动画循环
+    // ==========================================
+    function animate(time) {
+      requestAnimationFrame(animate);
+
+      if (currentSceneIndex === 0) {
+        const p = scrollProgress * 4;
+        updatePhase1(time, Math.min(1, p));
+      } else if (currentSceneIndex === 1) {
+        const p = (scrollProgress - 0.2) / 0.2;
+        updatePhase2(time, Math.max(0, Math.min(1, p)));
+      } else if (currentSceneIndex >= 2) {
+        const p = (scrollProgress - 0.4) / 0.4;
+        updatePhase3(time, Math.max(0, Math.min(1, p)));
+      }
+
+      mainRenderer.render(mainScene, mainCamera);
+    }
+
+    // ==========================================
+    // 滚动监听
+    // ==========================================
+    let tick = false;
+    window.addEventListener('scroll', () => {
+      if (!tick) {
+        requestAnimationFrame(() => {
+          calculateScroll();
+          tick = false;
+        });
+        tick = true;
+      }
+    }, { passive: true });
+
+    // ==========================================
+    // 初始化
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      if (initThreeJS()) {
+        createPhase1();
+        calculateScroll();
+        animate(0);
+        console.log('🎉 Dirac 波形动画已就绪！');
+      }
+    });
+  </script>
+
+</body>
+</html>

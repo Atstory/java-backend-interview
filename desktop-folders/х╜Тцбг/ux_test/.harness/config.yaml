@@ -1,0 +1,25 @@
+tool:
+  name: codex
+  generateToolHints: true
+validate:
+  failOnWarningsInStrict: true
+version: 1
+paths:
+  docs: .harness/docs
+  generatedPrompts: .harness/generated/prompts
+  changes: .harness/changes
+  specs: .harness/specs
+  templates: .harness/templates
+profile: core
+archive:
+  moveTo: .harness/changes/archive
+  requireValidate: true
+change:
+  defaultFastMode: true
+  defaultCapability: general
+  naming: CHG-{date}-{slug}
+artifacts:
+  includeVerify: true
+  includeReview: true
+  includeArchive: true
+  includeDeltaSpec: true

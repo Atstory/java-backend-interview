@@ -1,0 +1,18 @@
+English filename -> Chinese original
+SUMMARY-skills-and-training.md <- SUMMARY-能力考察与培养.md
+answers-01-localization-db-migration.md <- answers-01-国产化与数据库迁移.md
+answers-02-sql-index-tx.md <- answers-02-数据库·SQL·索引·事务.md
+answers-03-redis-cache.md <- answers-03-Redis与缓存.md
+answers-04-mq.md <- answers-04-消息队列.md
+answers-05-jvm.md <- answers-05-JVM与内存.md
+answers-06-concurrency.md <- answers-06-并发·锁·线程池.md
+answers-07-spring-aop.md <- answers-07-Spring·AOP·IoC.md
+answers-08-microservices.md <- answers-08-微服务与治理.md
+answers-09-java-basics.md <- answers-09-集合与Java基础.md
+answers-10-security.md <- answers-10-安全与加密.md
+answers-11-object-storage.md <- answers-11-对象存储.md
+answers-12-elasticsearch.md <- answers-12-搜索·Elasticsearch.md
+answers-13-payment-idempotency.md <- answers-13-支付·幂等·一致性业务.md
+answers-14-perf-troubleshooting.md <- answers-14-性能与排查.md
+answers-15-patterns-workflow.md <- answers-15-设计模式与工作流.md
+answers-16-engineering-team.md <- answers-16-工程与团队.md

@@ -1,0 +1,63 @@
+﻿GitHub Java 雷达归档（2026-02-06）
+
+本次筛选条件
+语言=Java
+过滤口径=公开仓库（数据源榜单口径）
+时间窗=按最近更新时间（Last Commit）统计
+数据快照时间=2026-02-05T04:07:10Z
+TopN=可核验 Top10（含可访问 URL）
+
+=== 日榜（最近1天，更新>=2026-02-05）- Star榜 ===
+1. spring-projects/spring-boot | stars=79838 | forks=41851 | 语言=Java | 创建日期=2012-10-19 | 最近更新=2026-02-05 | 简介=Spring Boot helps you to create Spring-powered, production-grade applications and services with absolute minimum fuss. | 简介译文=Spring Boot 可帮助你用最少配置快速构建生产级 Spring 应用与服务。 | URL=https://github.com/spring-projects/spring-boot
+2. elastic/elasticsearch | stars=76015 | forks=25795 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-05 | 简介=Free and Open Source, Distributed, RESTful Search Engine | 简介译文=免费开源、分布式、RESTful 搜索引擎。 | URL=https://github.com/elastic/elasticsearch
+
+=== 日榜（最近1天，更新>=2026-02-05）- 热度榜（近更新优先）===
+1. elastic/elasticsearch | stars=76015 | forks=25795 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-05 | 简介=Free and Open Source, Distributed, RESTful Search Engine | 简介译文=免费开源、分布式、RESTful 搜索引擎。 | URL=https://github.com/elastic/elasticsearch
+2. spring-projects/spring-boot | stars=79838 | forks=41851 | 语言=Java | 创建日期=2012-10-19 | 最近更新=2026-02-05 | 简介=Spring Boot helps you to create Spring-powered, production-grade applications and services with absolute minimum fuss. | 简介译文=Spring Boot 可帮助你用最少配置快速构建生产级 Spring 应用与服务。 | URL=https://github.com/spring-projects/spring-boot
+
+=== 周榜（最近7天，更新>=2026-01-30）- Star榜 ===
+1. Snailclimb/JavaGuide | stars=153733 | forks=46110 | 语言=Java | 创建日期=未获取 | 最近更新=2026-01-31 | 简介=Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发与系统设计。 | URL=https://github.com/Snailclimb/JavaGuide
+2. macrozheng/mall | stars=82854 | forks=29659 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-02 | 简介=基于 Spring Boot+MyBatis 的电商系统（前台+后台）。 | URL=https://github.com/macrozheng/mall
+3. spring-projects/spring-boot | stars=79838 | forks=41851 | 语言=Java | 创建日期=2012-10-19 | 最近更新=2026-02-05 | 简介=Spring Boot helps you to create Spring-powered, production-grade applications and services with absolute minimum fuss. | 简介译文=Spring Boot 可帮助你用最少配置快速构建生产级 Spring 应用与服务。 | URL=https://github.com/spring-projects/spring-boot
+4. elastic/elasticsearch | stars=76015 | forks=25795 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-05 | 简介=Free and Open Source, Distributed, RESTful Search Engine | 简介译文=免费开源、分布式、RESTful 搜索引擎。 | URL=https://github.com/elastic/elasticsearch
+5. TheAlgorithms/Java | stars=64946 | forks=20939 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-04 | 简介=All Algorithms implemented in Java | 简介译文=用 Java 实现的算法全集。 | URL=https://github.com/TheAlgorithms/Java
+
+=== 周榜（最近7天，更新>=2026-01-30）- 热度榜（近更新优先）===
+1. spring-projects/spring-boot | stars=79838 | forks=41851 | 语言=Java | 创建日期=2012-10-19 | 最近更新=2026-02-05 | 简介=Spring Boot helps you to create Spring-powered, production-grade applications and services with absolute minimum fuss. | 简介译文=Spring Boot 可帮助你用最少配置快速构建生产级 Spring 应用与服务。 | URL=https://github.com/spring-projects/spring-boot
+2. elastic/elasticsearch | stars=76015 | forks=25795 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-05 | 简介=Free and Open Source, Distributed, RESTful Search Engine | 简介译文=免费开源、分布式、RESTful 搜索引擎。 | URL=https://github.com/elastic/elasticsearch
+3. TheAlgorithms/Java | stars=64946 | forks=20939 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-04 | 简介=All Algorithms implemented in Java | 简介译文=用 Java 实现的算法全集。 | URL=https://github.com/TheAlgorithms/Java
+4. macrozheng/mall | stars=82854 | forks=29659 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-02 | 简介=基于 Spring Boot+MyBatis 的电商系统（前台+后台）。 | URL=https://github.com/macrozheng/mall
+5. Snailclimb/JavaGuide | stars=153733 | forks=46110 | 语言=Java | 创建日期=未获取 | 最近更新=2026-01-31 | 简介=Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发与系统设计。 | URL=https://github.com/Snailclimb/JavaGuide
+
+=== 年榜（最近365天，更新>=2025-02-06）- Star榜 ===
+1. Snailclimb/JavaGuide | stars=153733 | forks=46110 | 语言=Java | 创建日期=未获取 | 最近更新=2026-01-31 | 简介=Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发与系统设计。 | URL=https://github.com/Snailclimb/JavaGuide
+2. krahets/hello-algo | stars=122115 | forks=14822 | 语言=Java | 创建日期=2022-11-04 | 最近更新=2026-01-23 | 简介=《Hello 算法》：动画图解、一键运行的数据结构与算法教程。 | URL=https://github.com/krahets/hello-algo
+3. iluwatar/java-design-patterns | stars=93689 | forks=27382 | 语言=Java | 创建日期=未获取 | 最近更新=2026-01-17 | 简介=Design patterns implemented in Java | 简介译文=Java 设计模式实现集合。 | URL=https://github.com/iluwatar/java-design-patterns
+4. macrozheng/mall | stars=82854 | forks=29659 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-02 | 简介=基于 Spring Boot+MyBatis 的电商系统（前台+后台）。 | URL=https://github.com/macrozheng/mall
+5. spring-projects/spring-boot | stars=79838 | forks=41851 | 语言=Java | 创建日期=2012-10-19 | 最近更新=2026-02-05 | 简介=Spring Boot helps you to create Spring-powered, production-grade applications and services with absolute minimum fuss. | 简介译文=Spring Boot 可帮助你用最少配置快速构建生产级 Spring 应用与服务。 | URL=https://github.com/spring-projects/spring-boot
+6. doocs/advanced-java | stars=78816 | forks=19296 | 语言=Java | 创建日期=未获取 | 最近更新=2026-01-21 | 简介=Java 后端进阶知识图谱（高并发/分布式/微服务等）。 | URL=https://github.com/doocs/advanced-java
+7. elastic/elasticsearch | stars=76015 | forks=25795 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-05 | 简介=Free and Open Source, Distributed, RESTful Search Engine | 简介译文=免费开源、分布式、RESTful 搜索引擎。 | URL=https://github.com/elastic/elasticsearch
+8. TheAlgorithms/Java | stars=64946 | forks=20939 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-04 | 简介=All Algorithms implemented in Java | 简介译文=用 Java 实现的算法全集。 | URL=https://github.com/TheAlgorithms/Java
+
+=== 年榜（最近365天，更新>=2025-02-06）- 热度榜（近更新优先）===
+1. elastic/elasticsearch | stars=76015 | forks=25795 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-05 | 简介=Free and Open Source, Distributed, RESTful Search Engine | 简介译文=免费开源、分布式、RESTful 搜索引擎。 | URL=https://github.com/elastic/elasticsearch
+2. spring-projects/spring-boot | stars=79838 | forks=41851 | 语言=Java | 创建日期=2012-10-19 | 最近更新=2026-02-05 | 简介=Spring Boot helps you to create Spring-powered, production-grade applications and services with absolute minimum fuss. | 简介译文=Spring Boot 可帮助你用最少配置快速构建生产级 Spring 应用与服务。 | URL=https://github.com/spring-projects/spring-boot
+3. TheAlgorithms/Java | stars=64946 | forks=20939 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-04 | 简介=All Algorithms implemented in Java | 简介译文=用 Java 实现的算法全集。 | URL=https://github.com/TheAlgorithms/Java
+4. macrozheng/mall | stars=82854 | forks=29659 | 语言=Java | 创建日期=未获取 | 最近更新=2026-02-02 | 简介=基于 Spring Boot+MyBatis 的电商系统（前台+后台）。 | URL=https://github.com/macrozheng/mall
+5. Snailclimb/JavaGuide | stars=153733 | forks=46110 | 语言=Java | 创建日期=未获取 | 最近更新=2026-01-31 | 简介=Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发与系统设计。 | URL=https://github.com/Snailclimb/JavaGuide
+6. krahets/hello-algo | stars=122115 | forks=14822 | 语言=Java | 创建日期=2022-11-04 | 最近更新=2026-01-23 | 简介=《Hello 算法》：动画图解、一键运行的数据结构与算法教程。 | URL=https://github.com/krahets/hello-algo
+7. doocs/advanced-java | stars=78816 | forks=19296 | 语言=Java | 创建日期=未获取 | 最近更新=2026-01-21 | 简介=Java 后端进阶知识图谱（高并发/分布式/微服务等）。 | URL=https://github.com/doocs/advanced-java
+8. iluwatar/java-design-patterns | stars=93689 | forks=27382 | 语言=Java | 创建日期=未获取 | 最近更新=2026-01-17 | 简介=Design patterns implemented in Java | 简介译文=Java 设计模式实现集合。 | URL=https://github.com/iluwatar/java-design-patterns
+
+来源
+https://evanli.github.io/Github-Ranking/Top100/Java.html
+https://github.com/Snailclimb/JavaGuide
+https://github.com/krahets/hello-algo
+https://github.com/GrowingGit/GitHub-Chinese-Top-Charts
+https://github.com/iluwatar/java-design-patterns
+https://github.com/macrozheng/mall
+https://github.com/spring-projects/spring-boot
+https://github.com/doocs/advanced-java
+https://github.com/MisterBooo/LeetCodeAnimation
+https://github.com/elastic/elasticsearch
+https://github.com/TheAlgorithms/Java

@@ -1,0 +1,72 @@
+import redis
+r = redis.Redis(host='1.12.74.254', port=6379, password='root123456', decode_responses=True)
+script = """
+local key = KEYS[1]
+local accounts = {
+    -- 原始账户列表
+    "账户219", "账户319", "账户489", "账户456", "账户519",
+    "账户336", "账户229", "账户619", "账户476", "账户182",
+    "账户479", "账户629", "账户449", "账户459", "账户529",
+    "账户539", "账户172", "账户469", "账户156", "账户639",
+    "账户649", "账户339",
+    "账户126", "账户136", "账户162", "账户176", "账户186",
+    "账户326", "账户39", "账户416", "账户419", "账户426",
+    "账户429", "账户436", "账户439", "账户49", "账户59",
+    "账户659", "账户69", "账户99","账户579","账户569","账户679","账户612","账户346","账户589","账户729","账户289"
+}
+return redis.call('SADD', key, unpack(accounts))
+"""
+result = r.eval(script, 1, "getAllCHAccount")
+print("Added", result, "new members")
+r = redis.Redis(host='1.12.74.254', port=6379, password='root123456', decode_responses=True)
+# 删除账户126
+result = r.srem("getAllCHAccount", "账户289")
+print("Deleted", result, "member(s)")
+# 验证删除结果
+remaining_members = r.smembers("getAllCHAccount")
+print("Remaining members count:", len(remaining_members))
+# import redis
+#
+# r = redis.Redis(host='8.138.146.144', port=6379, password='qunde1608', decode_responses=True)
+#
+# script = """
+# local key = KEYS[1]
+# local accounts = {
+#     -- 原始账户列表
+#     "账户219", "账户319", "账户489", "账户456", "账户519",
+#     "账户336", "账户229", "账户619", "账户476", "账户182",
+#     "账户479", "账户629", "账户449", "账户459", "账户529",
+#     "账户539", "账户172", "账户469", "账户156", "账户639",
+#     "账户649", "账户339",
+#     "账户126", "账户136", "账户162", "账户176", "账户186",
+#     "账户326", "账户39", "账户416", "账户419", "账户426",
+#     "账户429", "账户436", "账户439", "账户49", "账户59",
+#     "账户659", "账户69", "账户99","账户579","账户569","账户679","账户612","账户346","账户589"
+# }
+# return redis.call('SADD', key, unpack(accounts))
+# """
+#
+# result = r.eval(script, 1, "getAllCHAccount")
+# print("Added", result, "new members")
+# # import redis
+# #
+# # r = redis.Redis(host='1.12.74.254', port=6379, password='root123456', decode_responses=True)
+# #
+# # # 指定你要查询的 key
+# # key = "RESTRICT_CITY_ACCOUNT:1851060131351461890:1980102868897038338"
+# #
+# # # 获取 key 对应的值
+# # value = r.get(key)
+# #
+# # if value is not None:
+# #     print(f"Key: {key}")
+# #     print(f"Value: {value}")
+# # else:
+# #     print(f"Key '{key}
+# import redis
+#
+# r = redis.Redis(host='1.12.74.254', port=6379, password='root123456', decode_responses=True)
+# key = "RESTRICT_CITY_ACCOUNT:1851060131351461890:1980102868897038338"
+# value = r.get(key)
+# print(f"Key: {key}")
+# print(f"Value: {value}")

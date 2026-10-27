@@ -1,0 +1,37 @@
+@echo off
+setlocal enabledelayedexpansion
+:menu
+cls
+echo ======================================
+echo        端口占用终止工具
+echo ======================================
+echo.
+echo 请输入要终止的端口号:
+set /p PORT=
+if "%PORT%"=="" (
+    echo 错误: 端口号不能为空!
+    pause
+    goto menu
+)
+echo 正在查找端口 %PORT% 的PID...
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":%PORT%" ^| findstr "LISTENING"') do (
+    set PID=%%a
+    echo 找到PID: !PID!
+    goto kill
+)
+echo 未找到端口 %PORT% 的监听进程!
+pause
+goto menu
+:kill
+echo 确定要终止PID为 !PID! 的进程吗? (Y/N)
+set /p confirm=
+if /i not "%confirm%"=="Y" (
+    echo 操作已取消!
+    pause
+    goto menu
+)
+echo 正在终止进程...
+taskkill /F /PID !PID!
+echo 操作完成!
+pause
+goto menu

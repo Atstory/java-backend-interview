@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>v2rayN + OpenVPN 共存问题诊断与解决</title>
+<style>
+  :root {
+    --bg: #f5f6fa;
+    --card: #ffffff;
+    --ink: #2d3748;
+    --sub: #718096;
+    --line: #e2e8f0;
+    --accent: #3182ce;
+    --ok: #38a169;
+    --warn: #dd6b20;
+    --err: #e53e3e;
+    --code-bg: #edf2f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.75;
+    padding: 32px 16px;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+  header.card { border-top: 5px solid var(--accent); }
+  h1 { font-size: 1.6rem; line-height: 1.4; margin-bottom: 8px; }
+  .meta { color: var(--sub); font-size: 0.9rem; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  }
+  h2 {
+    font-size: 1.15rem;
+    color: var(--accent);
+    border-left: 4px solid var(--accent);
+    padding-left: 12px;
+    margin-bottom: 14px;
+  }
+  h3 { font-size: 1rem; margin: 16px 0 8px; }
+  p { margin-bottom: 10px; }
+  ul, ol { padding-left: 22px; margin-bottom: 10px; }
+  li { margin-bottom: 6px; }
+  code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9em;
+  }
+  pre {
+    background: #1a202c;
+    color: #e2e8f0;
+    padding: 14px 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 10px 0;
+  }
+  pre code { background: none; color: inherit; padding: 0; }
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; margin-right: 8px; }
+  .tag-ok { background: #f0fff4; color: var(--ok); border: 1px solid #c6f6d5; }
+  .tag-warn { background: #fffaf0; color: var(--warn); border: 1px solid #feebc8; }
+  .tag-err { background: #fff5f5; color: var(--err); border: 1px solid #fed7d7; }
+  .tag-rec { background: #ebf8ff; color: var(--accent); border: 1px solid #bee3f8; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.92rem; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; vertical-align: top; }
+  th { background: #f7fafc; font-weight: 600; }
+  .reason-box {
+    background: #fffaf0;
+    border: 1px solid #feebc8;
+    border-left: 4px solid var(--warn);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 12px 0;
+  }
+  .evidence {
+    background: #f0fff4;
+    border-left: 4px solid var(--ok);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.9rem;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .links li { margin-bottom: 10px; }
+  .links .src { color: var(--sub); font-size: 0.85rem; }
+  .footer { text-align: center; color: var(--sub); font-size: 0.85rem; margin-top: 24px; }
+  @media (max-width: 600px) {
+    .card { padding: 16px 18px; }
+    h1 { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="card">
+    <h1>v2rayN（TUN 模式翻墙）与 OpenVPN（访问内网）共存问题<br>诊断与解决方案</h1>
+    <p class="meta">生成日期：2026-08-09 ｜ 适用环境：Windows 11 x64 ｜ 客户端：OpenVPN Connect 3.8 + v2rayN 7.24.3（sing-box 内核）</p>
+  </header>
+
+  <!-- 问题概述 -->
+  <section class="card">
+    <h2>一、问题概述</h2>
+    <p>同时开启 <strong>v2rayN</strong>（TUN 模式，全局代理翻墙）与 <strong>OpenVPN</strong>（访问腾讯云服务器内网）时，出现冲突：</p>
+    <ul>
+      <li>开启 OpenVPN 后，<strong>无法访问 YouTube 等境外网站</strong>（域名解析超时）；</li>
+      <li>内网流量被 v2rayN 的 TUN 虚拟网卡"抢走"，无法到达 OpenVPN 隧道。</li>
+    </ul>
+    <p>两者都在争夺系统的"默认路由"与"DNS 解析"，需要正确分流才能共存。</p>
+  </section>
+
+  <!-- 一句话原因 -->
+  <section class="card">
+    <h2>二、一句话原因</h2>
+    <div class="reason-box">
+      <p><strong>OpenVPN Connect 客户端强制开启"DNS 泄漏防护"，连接时通过 Windows 过滤平台（WFP）屏蔽了除自身之外所有应用的 DNS 查询（端口 53），导致 v2rayN 的 sing-box 内核无法解析域名，境外网站因此打不开。</strong></p>
+    </div>
+  </section>
+
+  <!-- 详细原因 -->
+  <section class="card">
+    <h2>三、详细原因分析</h2>
+    <h3>1. 流量分流原理</h3>
+    <ul>
+      <li><strong>v2rayN（sing-box TUN 模式）</strong>：创建虚拟网卡（<code>singbox_tun</code>）接管默认路由 <code>0.0.0.0/0</code>，使用 <code>dns_mode: hijack</code> 劫持 DNS 查询做域名分流，匹配规则（如 <code>geosite-google</code>）后走代理。</li>
+      <li><strong>OpenVPN</strong>：建立隧道后按"服务器推送的路由"接管流量。若未做限制，会连同 <code>redirect-gateway</code> 一起接管全部出口流量。</li>
+    </ul>
+
+    <h3>2. 冲突的两个根源</h3>
+    <ol>
+      <li><strong>默认路由冲突</strong>：OpenVPN 服务器推送 <code>redirect-gateway def1</code>，与 v2rayN TUN 的默认路由互相争夺全局流量。</li>
+      <li><strong>DNS 泄漏防护冲突（根因）</strong>：OpenVPN Connect 3.x 的客户端 <code>agent</code> 服务在每次连接时，强制创建 WFP 过滤规则，屏蔽"其它应用"的 DNS 请求：</li>
+    </ol>
+    <pre><code>permit IPv4 requests from OpenVPN app
+permit IPv6 requests from OpenVPN app
+block IPv4 DNS requests from other apps     ← 屏蔽其它应用的 DNS
+block IPv6 DNS requests from other apps
+block IPv4 DNS requests to loopback from other apps  ← 连 127.0.0.1 都屏蔽
+block IPv6 DNS requests to loopback from other apps</code></pre>
+    <p>这条屏蔽规则与 OpenVPN 的 <code>block-outside-dns</code> 指令等价（官方手册明确说明其使用 WFP 阻止端口 53）。结果是 v2rayN 的 sing-box 进程无法向上游 DNS 服务器（如 223.5.5.5）或本地解析器发起查询，<strong>域名解析失败 → 连接超时 → 打不开境外网站</strong>。</p>
+
+    <h3>3. 为什么"关不掉"（实测证据）</h3>
+    <div class="evidence">
+      <strong>依次尝试了 3 种关闭方式，全部无效，日志为证：</strong>
+      <ol>
+        <li>删除 ovpn 中的 <code>block-outside-dns</code> 指令 → 连接日志仍出现上述 block 规则；</li>
+        <li>添加 <code>pull-filter ignore "block-outside-dns"</code> → 无效，客户端强制创建；</li>
+        <li>修改配置文件 <code>allowLocalDnsResolvers=true</code> → OpenVPN core 内部仍记录为 <code>false</code>（该设置为隐藏项 <code>isAllowLocalDnsResolversVisible=false</code>，未被采用）。</li>
+      </ol>
+      <p>关键日志对比：OpenVPN core 层面已是 <code>block_outside_dns : false</code>，但 <code>agent</code> 仍无条件创建屏蔽规则。结论：<strong>OpenVPN Connect 3.8 的 DNS 泄漏防护为强制功能，客户端层面无法关闭。</strong></p>
+    </div>
+  </section>
+
+  <!-- 诊断证据 -->
+  <section class="card">
+    <h2>四、诊断证据（实测数据）</h2>
+    <table>
+      <tr><th>测试项</th><th>OpenVPN 断开时</th><th>OpenVPN 连接时</th><th>结论</th></tr>
+      <tr><td>走 v2rayN socks(10808) 访问 Google</td><td>HTTP 204</td><td>HTTP 204</td><td>代理链路本身正常</td></tr>
+      <tr><td>走 TUN 直连 YouTube</td><td>HTTP 200</td><td><strong>HTTP 000（10s 超时）</strong></td><td>问题只在 OpenVPN 连接期间</td></tr>
+      <tr><td>系统 DNS</td><td>运营商 DNS</td><td>被改为 100.100.2.136（OpenVPN 推送）</td><td>DNS 被接管</td></tr>
+    </table>
+    <p>定位结论：差异在于 <strong>DNS 解析路径</strong>。走 socks 代理时域名由远端解析（本地不发 DNS 查询，不被屏蔽）；走 TUN 时浏览器/应用需先本地解析域名，查询被 WFP 屏蔽 → 超时。</p>
+  </section>
+
+  <!-- 多种解决方案 -->
+  <section class="card">
+    <h2>五、多种解决方案</h2>
+
+    <h3>方案一（推荐，已实测通过）：改用社区版 OpenVPN GUI</h3>
+    <p><span class="tag tag-rec">推荐</span>社区版 OpenVPN（官网免费版）<strong>尊重 ovpn 配置文件</strong>，只有配置中显式写 <code>block-outside-dns</code> 才启用 DNS 屏蔽，否则不创建任何 WFP 规则，因此天然与 v2rayN TUN 共存。</p>
+    <ol>
+      <li>下载安装：<a href="https://openvpn.net/community-downloads/">openvpn.net/community-downloads</a>（Windows 选最新版，如 OpenVPN 2.6.x / 2.7.x）</li>
+      <li>把修改后的 <code>.ovpn</code> 放入 <code>C:\Program Files\OpenVPN\config\</code></li>
+      <li>以管理员身份运行 OpenVPN GUI → 托盘图标右键 → 连接对应配置</li>
+    </ol>
+    <p><strong>关键 ovpn 配置（本方案核心）：</strong></p>
+    <pre><code>client
+proto udp
+explicit-exit-notify
+remote 8.138.84.226 1194
+pull-filter ignore "redirect-gateway"     # 不接管全局流量，只走内网路由
+pull-filter ignore "block-outside-dns"    # 忽略服务器推送的 DNS 屏蔽
+pull-filter ignore "dhcp-option DNS"      # 不让 OpenVPN 改系统 DNS
+route 172.28.0.0 255.255.0.0              # 内网网段走 VPN（按实际网段调整）
+dev tun
+# ……证书部分省略……
+# 注意：不要写 setenv opt block-outside-dns / block-outside-dns</code></pre>
+    <p>效果：内网流量命中 OpenVPN 路由走隧道；境外流量走系统默认路由 → v2rayN TUN → 代理；互不干扰。</p>
+
+    <h3>方案二：OpenVPN Connect 中开启"允许本地 DNS 解析器"</h3>
+    <p><span class="tag tag-warn">视版本支持</span>OpenVPN Connect 设置文档中列有官方选项 <strong>"Allow using local DNS resolvers"</strong>（允许向本地解析器 127.0.0.1/::1 发送 DNS）。若你的版本界面可见该选项，开启后 v2rayN 的本地 DNS 查询可能不再被屏蔽。但在 3.8 版本中该选项为隐藏项，配置文件修改未生效。</p>
+    <p>参考：<a href="https://openvpn.net/connect-docs/app-settings-windows.html">OpenVPN Connect 设置文档（官方）</a></p>
+
+    <h3>方案三：v2rayN 改用"系统代理"模式（不开 TUN）</h3>
+    <p><span class="tag tag-warn">部分适用</span>关闭 TUN，让 v2rayN 走系统代理。浏览器等走代理的程序翻墙正常；内网访问命中系统代理的直连例外列表 → 直连 → OpenVPN 隧道。缺点：仅对走代理的程序生效，命令行等非代理应用不受益。</p>
+
+    <h3>方案四：手动添加防火墙放行规则</h3>
+    <p><span class="tag tag-warn">不保证</span>为 sing-box 进程添加出站放行规则（UDP/TCP 53 端口），试图覆盖 OpenVPN 的 block。风险：OpenVPN 的规则位于 WFP 底层，放行规则优先级可能不足，且每次连接重建，需保持规则持久。</p>
+
+    <h3>方案五：两客户端不同时开启</h3>
+    <p><span class="tag tag-err">功能受限</span>需要内网时连 OpenVPN，需要翻墙时开 v2rayN，不同时使用。最简单但无法同时满足需求。</p>
+  </section>
+
+  <!-- 本次实施记录 -->
+  <section class="card">
+    <h2>六、本次实施方案与验证结果</h2>
+    <h3>采用：方案一（社区版 OpenVPN GUI）</h3>
+    <ol>
+      <li>用 <code>winget</code> 安装社区版 OpenVPN：<code>winget install OpenVPNTechnologies.OpenVPN</code>（安装 2.7.5，含 OpenVPN GUI、DCO 驱动、服务）；</li>
+      <li>修正 ovpn 配置（移除会报错的 <code>ignore-unknown-option</code>，保留三条 <code>pull-filter</code> 与内网路由）；</li>
+      <li>部署至 <code>C:\Program Files\OpenVPN\config\</code>；</li>
+      <li>OpenVPN GUI 连接 <code>yrg813884226</code>（8.138.84.226）。</li>
+    </ol>
+    <h3>最终验证结果（OpenVPN 连接中）</h3>
+    <table>
+      <tr><th>验证项</th><th>结果</th></tr>
+      <tr><td>内网路由 <code>172.28.0.0/16</code> 是否挂载</td><td><span class="tag tag-ok">通过</span> 指向 10.8.0.1（OpenVPN 网卡）</td></tr>
+      <tr><td><code>ping 172.28.183.102</code>（内网主机）</td><td><span class="tag tag-ok">通过</span> 0% 丢包，约 7ms</td></tr>
+      <tr><td><code>ping 10.8.0.1</code>（隧道网关）</td><td><span class="tag tag-ok">通过</span> 约 7ms</td></tr>
+      <tr><td>YouTube 访问（走 v2rayN TUN）</td><td><span class="tag tag-ok">通过</span> HTTP 200，约 0.8s</td></tr>
+      <tr><td>百度访问（国内直连）</td><td><span class="tag tag-ok">通过</span> HTTP 200，约 0.07s</td></tr>
+    </table>
+    <p>结论：内网走 OpenVPN、翻墙走 v2rayN、国内直连，三者互不干扰，共存成功。</p>
+  </section>
+
+  <!-- 权威链接 -->
+  <section class="card">
+    <h2>七、权威参考链接</h2>
+    <ul class="links">
+      <li>
+        <strong>OpenVPN 社区版下载（官方）</strong><br>
+        <a href="https://openvpn.net/community-downloads/">https://openvpn.net/community-downloads/</a>
+        <div class="src">OpenVPN 官方社区版（自由软件，尊重 ovpn 配置，不强制 DNS 防护）。</div>
+      </li>
+      <li>
+        <strong>OpenVPN Connect 设置文档（Windows）——含 DNS Fallback / Allow using local DNS resolvers</strong><br>
+        <a href="https://openvpn.net/connect-docs/app-settings-windows.html">https://openvpn.net/connect-docs/app-settings-windows.html</a>
+        <div class="src">OpenVPN 官方文档，说明客户端 DNS 相关设置项。</div>
+      </li>
+      <li>
+        <strong>OpenVPN Windows 专用选项手册 —— block-outside-dns 指令官方说明</strong><br>
+        <a href="https://fossies.org/linux/openvpn/doc/man-sections/windows-options.rst">https://fossies.org/linux/openvpn/doc/man-sections/windows-options.rst</a>
+        <div class="src">官方手册原文：block-outside-dns 使用 Windows Filtering Platform (WFP) 阻止其它应用访问端口 53，防 DNS 泄漏。</div>
+      </li>
+      <li>
+        <strong>OpenVPN 2.4 参考手册（man page）</strong><br>
+        <a href="https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/">https://openvpn.net/community-resources/reference-manual-for-openvpn-2-4/</a>
+        <div class="src">OpenVPN 官方参考手册，涵盖 redirect-gateway、route、pull-filter 等指令。</div>
+      </li>
+      <li>
+        <strong>v2rayN 官方 GitHub 仓库</strong><br>
+        <a href="https://github.com/2dust/v2rayN">https://github.com/2dust/v2rayN</a> ｜ 官网：<a href="https://v2rayn.2dust.link">https://v2rayn.2dust.link</a>
+        <div class="src">v2rayN 官方项目，支持 Xray 与 sing-box 内核，含 TUN 模式实现。</div>
+      </li>
+      <li>
+        <strong>sing-box TUN 配置文档（官方）</strong><br>
+        <a href="https://sing-box.sagernet.org/configuration/inbound/tun/">https://sing-box.sagernet.org/configuration/inbound/tun/</a>
+        <div class="src">sing-box 官方文档，说明 TUN 入站、dns_mode=hijack、auto_route、strict_route 等参数。</div>
+      </li>
+    </ul>
+  </section>
+
+  <footer class="footer">
+    本文档基于 2026-08-09 实际排障过程整理 ｜ 配置目录：C:\Users\7\Desktop\_归档\01_网络配置\
+  </footer>
+
+</div>
+</body>
+</html>

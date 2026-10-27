@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>给 2003.03.22 的你</title>
+  <meta name="description" content="东方玄秘风格的私藏生日仪式站，以老黄历、星轨与命盘叙事献给 2003 年 3 月 22 日出生的你。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/main.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script defer src="./scripts/config.js"></script>
+  <script defer src="./scripts/audio.js"></script>
+  <script defer src="./scripts/effects.js"></script>
+  <script defer src="./scripts/app.js"></script>
+</head>
+<body>
+  <canvas id="starCanvas" class="star-canvas" aria-hidden="true"></canvas>
+
+  <div id="introOverlay" class="intro-overlay" aria-hidden="false">
+    <div class="intro-card">
+      <div class="intro-seal" aria-hidden="true">生辰</div>
+      <span class="eyebrow">Private Birthday Ritual · 2026.04.08</span>
+      <h1>给 2003.03.22 的你</h1>
+      <p>今夜不做喧闹的庆生页，而做一场会在每次进入时换一种方式迎接你的个人仪式。白羊的火、未羊的柔、甲木的直、巳时的光，都在这里慢慢落下。</p>
+      <div class="intro-actions">
+        <button id="enterRiteButton" type="button" class="action-primary">启命入场</button>
+        <button id="skipMusicButton" type="button" class="action-secondary">静音进入</button>
+      </div>
+    </div>
+  </div>
+
+  <button id="musicToggleButton" type="button" class="music-toggle" aria-pressed="false">东方器乐感 · 已静音</button>
+
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="#top" aria-label="回到页面顶部">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9.2" stroke="#D9AC57" stroke-width="1.5"></circle>
+            <path d="M12 4.5V19.5" stroke="#F0DFB7" stroke-width="1.4" stroke-linecap="round"></path>
+            <path d="M4.5 12H19.5" stroke="#F0DFB7" stroke-width="1.4" stroke-linecap="round"></path>
+            <circle cx="12" cy="12" r="2.2" fill="#D9AC57"></circle>
+          </svg>
+        </span>
+        Birth Oracle
+      </a>
+      <nav class="nav-links" aria-label="页面导航">
+        <a href="#anchor">生辰锚点</a>
+        <a href="#almanac">今日老黄历</a>
+        <a href="#destiny">命盘四柱</a>
+        <a href="#chapters">人生四卷</a>
+        <a href="#wish">庆生仪式</a>
+      </nav>
+      <span class="tag">白羊座 · 未羊年 · 巳时</span>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="section section--hero">
+      <div class="section-shell hero-grid">
+        <article class="panel panel--hero reveal">
+          <span class="eyebrow">东方玄秘庆生 · 红金墨黑 · 全屏沉浸</span>
+          <h1>给 <em>2003.03.22</em> 的你</h1>
+          <p>这不是把命理写成绝对结论的网站，而是把公开老黄历与八字排盘口径转成更温和的个人仪式。每次进入，都有不同的开场方式；真正不变的，是这份只属于你的私藏感。</p>
+          <div class="hero-actions">
+            <button id="igniteHeroButton" type="button" class="action-primary">点燃长烛</button>
+            <button id="revealHeroButton" type="button" class="action-secondary">揭晓命盘</button>
+          </div>
+          <div class="meta-grid">
+            <div class="meta-card"><span class="meta-label">太阳星座</span><strong class="meta-value">白羊座</strong></div>
+            <div class="meta-card"><span class="meta-label">生肖年</span><strong class="meta-value">癸未年 · 羊</strong></div>
+            <div class="meta-card"><span class="meta-label">日主</span><strong class="meta-value">甲木</strong></div>
+            <div class="meta-card"><span class="meta-label">时辰</span><strong class="meta-value">巳时</strong></div>
+          </div>
+        </article>
+
+        <aside class="panel panel--ritual reveal" aria-label="主仪式面板">
+          <div class="ritual-wheel">
+            <div class="wheel-characters" aria-hidden="true">
+              <span>命</span><span>缘</span><span>光</span><span>愿</span><span>火</span><span>岁</span><span>时</span><span>生</span>
+            </div>
+            <div id="heroCandle" class="candle-stage" aria-live="polite">
+              <div class="flame-glow" aria-hidden="true"></div>
+              <div class="flame-core" aria-hidden="true"></div>
+              <div class="wax-body">
+                <span class="wax-drip one" aria-hidden="true"></span>
+                <span class="wax-drip two" aria-hidden="true"></span>
+                <span class="wax-drip three" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+          <div class="ritual-copy">
+            <span class="section-kicker">序章</span>
+            <h2>今夜适合立愿，不适合仓促。</h2>
+            <p>以 2026 年 4 月 7 日的老黄历口径来看，这一天更偏向整理、收口、归心。所以这场庆生，不用急着向外证明什么，只适合把火点亮，把心安下来，再看你未来几年会走向哪里。</p>
+            <div class="ritual-actions">
+              <button id="ritualIgniteButton" type="button" class="action-primary">点灯开卷</button>
+              <button id="ritualWishButton" type="button" class="action-secondary">直达许愿</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="anchor" class="section section--chapter reveal">
+      <div class="section-shell">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">生辰锚点</span>
+            <h2>先记住你从哪里来，再决定往哪里去。</h2>
+            <p class="section-copy">这里不追求过度公开，只保留真正决定叙事气质的出生信息。网站本身按私藏向写法表达，不把原始信息往外扩散。</p>
+          </div>
+          <span class="meta-chip">广东东莞虎门 · 巳时</span>
+        </div>
+        <div class="info-grid">
+          <article class="card"><span class="meta-label">公历生日</span><strong class="meta-value">2003 年 3 月 22 日</strong><p class="card-copy">太阳星座按公历计算，对应白羊座，气质起点偏直觉、偏行动、偏先燃后想。</p></article>
+          <article class="card"><span class="meta-label">农历生日</span><strong class="meta-value">癸未年 二月二十</strong><p class="card-copy">农历信息保留了东方叙事的时间感，适合和命盘、老黄历、仪式性章节结合。</p></article>
+          <article class="card"><span class="meta-label">出生时辰</span><strong class="meta-value">巳时</strong><p class="card-copy">当前按巳时做大方向解读，不追分钟级精盘，因此婚恋与家庭内容采用中性关系视角。</p></article>
+          <article class="card"><span class="meta-label">出生地点</span><strong class="meta-value">广东东莞虎门</strong><p class="card-copy">地点只作为叙事坐标，不延伸复杂地理校时，确保初版稳定且不会过度伪精确。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="almanac" class="section section--chapter reveal">
+      <div class="section-shell">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">今日老黄历</span>
+            <h2>以 2026 年 4 月 7 日为锚，今天的吉不在喧闹，在收整与安神。</h2>
+            <p class="section-copy">页面采用公开老黄历的一套固定口径，不把它包装成唯一标准答案，而是把它转译成更适合生日夜晚的仪式提示。</p>
+          </div>
+          <span class="meta-chip">值神玉堂 · 危日</span>
+        </div>
+        <div class="almanac-grid">
+          <article class="wheel-panel">
+            <div class="wheel-center">
+              <span class="section-kicker">今日锚点</span>
+              <span class="wheel-date">2026 / 04 / 07</span>
+              <span class="wheel-day">玉堂危日</span>
+              <p class="wheel-sub">宜清理空间，宜收口立愿。<br>忌一时冲动，忌把重要决定交给情绪。</p>
+            </div>
+          </article>
+          <div class="info-grid info-grid--double">
+            <article class="card"><span class="meta-label">宜</span><h3 class="card-title">房屋清洁 · 馀事勿取 · 塞穴</h3><p class="card-copy">适合整理房间、收纳旧物、写愿望、定长期目标，也适合做安静而不喧哗的庆生仪式。</p></article>
+            <article class="card"><span class="meta-label">忌</span><h3 class="card-title">诸事不宜</h3><p class="card-copy">不适合仓促表态，不适合冲动开始或结束一段关系，也不适合在情绪高点时做大额和不可逆决定。</p></article>
+            <article class="card"><span class="meta-label">方位</span><h3 class="card-title">财神西南 · 喜神西北 · 福神东北</h3><p class="card-copy">今晚更适合借“定向”完成“定心”。不迷信方位本身，而把它当作一种把注意力收回来的方式。</p></article>
+            <article class="card"><span class="meta-label">一句转译</span><h3 class="card-title">今天真正适合的，是把自己重新安放好。</h3><p class="card-copy">黄历并不鼓励大开大合，反而很适合你借生日做一次安静的归整：点灯、许愿、回望、收束，再为下一阶段留出位置。</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="destiny" class="section section--chapter reveal">
+      <div class="section-shell">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">命盘四柱</span>
+            <h2>这张命盘不写成绝对答案，只写成一张能照见你的镜子。</h2>
+            <p class="section-copy">按公开排盘口径，你的出生信息对应四柱为癸未年 / 乙卯月 / 甲午日 / 己巳时。核心只抓一个重点：甲木生于卯月，木气得令，火势明，行动与表达都不弱。</p>
+          </div>
+          <button id="toggleDestinyButton" type="button" class="action-primary">展开命盘解读</button>
+        </div>
+        <div class="pillars-grid">
+          <article class="card card--center"><span class="meta-label">年柱</span><strong class="meta-value meta-value--large">癸未</strong><p class="card-copy">带温和包裹感，也带较早体会责任与现实的一面。</p></article>
+          <article class="card card--center"><span class="meta-label">月柱</span><strong class="meta-value meta-value--large">乙卯</strong><p class="card-copy">木气当令，说明你的自我驱动力、审美意识、主观判断都偏强。</p></article>
+          <article class="card card--center"><span class="meta-label">日柱</span><strong class="meta-value meta-value--large">甲午</strong><p class="card-copy">甲木坐午火，容易把热情、行动与喜欢讨厌都表达得很直接。</p></article>
+          <article class="card card--center"><span class="meta-label">时柱</span><strong class="meta-value meta-value--large">己巳</strong><p class="card-copy">后运更重现实结果，随着年纪增长，会越来越在意稳定和实际积累。</p></article>
+        </div>
+        <div id="destinyPanel" class="hidden-panel">
+          <div class="summary-panel">这张盘给人的第一感不是弱，而是旺。木旺的人不怕开始，怕的是开始太快；火明的人不怕表达，怕的是表达太满。所以你真正的人生课题，不是如何鼓起勇气，而是如何让天生的锋芒长出秩序。一旦学会把热情安放进长期结构里，你的感情、事业、家庭角色都会明显稳定下来。</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="chapters" class="section section--chapter reveal">
+      <div class="section-shell">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">人生四卷</span>
+            <h2>婚姻、事业、父母与后代，不是一次看完，而是逐段揭晓。</h2>
+            <p class="section-copy">下面四卷都采用温和的文化叙事写法。点开时会按实际内容高度展开，不再截断。</p>
+          </div>
+          <span class="meta-chip">中性关系视角 · 非精盘直断</span>
+        </div>
+        <div class="detail-grid">
+          <article class="detail-card">
+            <div>
+              <span class="meta-label">卷一</span>
+              <h3 class="card-title">婚姻与亲密关系</h3>
+              <p class="card-copy">你的关系模式偏“先被点燃，再开始审视”。吸引力来得快，判断也不慢，但真正适合长久的人，往往不是最热烈的那个，而是能接住你节奏的人。</p>
+            </div>
+            <button type="button" class="unlock-button" data-target="lovePanel">开启此卷</button>
+            <div id="lovePanel" class="hidden-panel">
+              <div class="summary-panel">
+                <strong>适婚年龄段：</strong>更适合把稳定婚姻窗口放在 <strong>27-31 岁</strong>，也就是大致对应 <strong>2030-2034 年</strong>。<br><br>
+                <strong>正缘出现阶段：</strong>24-26 岁容易遇到能让你明显动心、推动关系升级的人；27-30 岁更容易遇到真正能走入承诺结构的对象。<br><br>
+                <strong>婚后状态：</strong>一旦决定进入长期关系，你会比外表看起来更有责任感，但也容易把“我是在为你好”说得太直接。真正的稳定，来自温度和边界同时存在。
+              </div>
+            </div>
+          </article>
+          <article class="detail-card">
+            <div>
+              <span class="meta-label">卷二</span>
+              <h3 class="card-title">事业与上升期</h3>
+              <p class="card-copy">这张盘不太适合长期困在纯重复、纯服从、几乎没有表达空间的位置。你更像适合做能主导节奏、形成判断、带一点审美或策略感的事情。</p>
+            </div>
+            <button type="button" class="unlock-button" data-target="careerPanel">开启此卷</button>
+            <div id="careerPanel" class="hidden-panel">
+              <div class="summary-panel">
+                <strong>起势阶段：</strong>23-26 岁更像重新定方向、积累作品与经验的阶段；真正明显上升的窗口更偏向 <strong>27-33 岁</strong>。<br><br>
+                <strong>职业倾向：</strong>适合内容策划、品牌传播、设计审美、产品策划、教育培训、项目主导、商务推进、个人表达型职业，也适合在成熟后尝试独立项目。<br><br>
+                <strong>事业提醒：</strong>你的问题不在没冲劲，而在太容易先冲后修。一旦学会长期主义、流程意识和资源整合，事业会越做越稳。
+              </div>
+            </div>
+          </article>
+          <article class="detail-card">
+            <div>
+              <span class="meta-label">卷三</span>
+              <h3 class="card-title">父母与原生关系</h3>
+              <p class="card-copy">你和父母之间的底色并不冷，更像“有情感、有期待、也有隐形责任”。你容易比同龄人更早意识到现实、回报和担当这些词。</p>
+            </div>
+            <button type="button" class="unlock-button" data-target="familyPanel">开启此卷</button>
+            <div id="familyPanel" class="hidden-panel">
+              <div class="summary-panel">
+                <strong>关系倾向：</strong>父母缘分总体不薄，但容易夹着“关心”和“要求”一起出现，所以你会既想被理解，又想早点证明自己。<br><br>
+                <strong>相处建议：</strong>未来更适合用稳定行动而非情绪对抗去回应家人，也要学会把“孝顺”与“自我边界”同时保住。<br><br>
+                <strong>一句总结：</strong>你不是和家里无缘，而是更容易成为那个先扛一点的人。
+              </div>
+            </div>
+          </article>
+          <article class="detail-card">
+            <div>
+              <span class="meta-label">卷四</span>
+              <h3 class="card-title">后代与未来家庭气质</h3>
+              <p class="card-copy">你的后代缘更适合温暖型叙事，不适合强控制型叙事。如果未来进入家庭角色，你会天然想把“我吃过的亏，不想让下一代再走一遍”。</p>
+            </div>
+            <button type="button" class="unlock-button" data-target="futurePanel">开启此卷</button>
+            <div id="futurePanel" class="hidden-panel">
+              <div class="summary-panel">
+                <strong>未来家庭气质：</strong>整体更偏有温度、有参与感、有仪式感，不太像冷处理型家庭。<br><br>
+                <strong>对后代的倾向：</strong>你会投入、会护短、也会希望对方争气，但要注意别把自己的标准压得太满。<br><br>
+                <strong>更好的状态：</strong>做带路的人，而不是过度替代决定的人。这样你的温暖会留下，压迫感会变少。
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--chapter reveal">
+      <div class="section-shell">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">阶段建议</span>
+            <h2>真正值得你记住的，不是会不会发生，而是什么时候更适合发生。</h2>
+            <p class="section-copy">因为这是一版文化叙事初稿，所以时间轴只给大窗口，不给伪精确年份。</p>
+          </div>
+          <span class="meta-chip">更适合看趋势，不适合当成判决</span>
+        </div>
+        <div class="timeline-grid">
+          <article class="card"><span class="meta-label">阶段一</span><strong class="meta-value meta-value--large">23 - 26 岁</strong><p class="card-copy">这是重新认路的几年。感情上容易遇见让你动心的人，事业上更像试错、转向、积作品。此阶段最重要的是不要把热情都用在开头，学会保留后劲。</p></article>
+          <article class="card"><span class="meta-label">阶段二</span><strong class="meta-value meta-value--large">27 - 31 岁</strong><p class="card-copy">这是婚恋和事业都更容易落地的阶段。人会更稳，关系更能谈长期，工作也更容易走向主导位或关键位置。你真正的“成形感”大概率在这几年出现。</p></article>
+          <article class="card"><span class="meta-label">阶段三</span><strong class="meta-value meta-value--large">32 岁以后</strong><p class="card-copy">前面几年积累下来的秩序感，会开始转成更清晰的稳定性。如果前期没有被短期冲动打乱，这一段会更像你把天赋真正沉淀为长期成果的时候。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="wish" class="section section--chapter reveal">
+      <div class="section-shell">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">庆生仪式</span>
+            <h2>把一句真正想留下的话，交给今夜的火。</h2>
+            <p class="section-copy">先点灯，再许愿。页面会把你的愿望封成今晚的私藏祝词，并以烟花作为回应。</p>
+          </div>
+          <span class="meta-chip">默认不外发 · 只在本页存留</span>
+        </div>
+        <div class="wish-grid">
+          <article class="wish-card">
+            <span class="section-kicker">你的心愿</span>
+            <h3 class="card-title">今晚，你真正想留住什么？</h3>
+            <p class="card-copy">建议写一句足够短、足够真、足够只属于你的愿望。它不需要华丽，只需要准确。</p>
+            <form id="wishForm" class="wish-form">
+              <label for="wishInput" class="sr-only">输入你的愿望</label>
+              <input id="wishInput" class="wish-input" name="wish" type="text" maxlength="32" placeholder="例如：愿我在热烈里也有秩序。" autocomplete="off">
+              <button type="submit" class="wish-submit">封存心愿</button>
+            </form>
+            <div id="statusText" class="status-text" aria-live="polite"></div>
+            <div id="wishOutput" class="summary-panel summary-panel--wish">烛火还没有真正亮起。点灯之后，再把愿望交出来，页面会给你一段专属祝词。</div>
+          </article>
+          <article class="wish-card wish-card--ritual">
+            <div class="wish-orbit"><div class="wish-core">愿火<br>未熄</div></div>
+            <div>
+              <span class="section-kicker">尾声</span>
+              <h3 class="card-title">愿你这一岁，不再只靠一时热烈活着。</h3>
+              <p class="card-copy">愿你仍保有白羊的光、甲木的直、巳火的热，但从今天开始，所有锋芒都能找到更稳的去处，所有愿望都能落进真正能承载它的生活里。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="section section--footer reveal">
+    <div class="section-shell">
+      <div class="source-card">
+        <span class="section-kicker">资料锚点</span>
+        <p class="section-copy">页面中的老黄历与命盘信息，依据公开网页资料整理后转写为文化叙事内容。因未提供性别与分钟级出生时间，婚恋与家庭部分保持中性、温和表达，不将其视作确定性结论。</p>
+        <div class="source-grid">
+          <a class="source-line" href="https://m.xzw.com/hl/2026/4/7" target="_blank" rel="noreferrer"><strong>老黄历口径</strong>采用 2026 年 4 月 7 日的公开老黄历页面，用于提取宜忌、值神与方位信息。</a>
+          <a class="source-line" href="https://www.huangli8.com/ganzhichaxun.php?d=22&m=3&y=2003" target="_blank" rel="noreferrer"><strong>四柱排盘口径</strong>用于确认 2003-03-22 对应的干支日期，以及巳时对应己巳时。</a>
+          <a class="source-line" href="https://www.guoxuemi.com/a/22329p/281314j.html" target="_blank" rel="noreferrer"><strong>甲木卯月参考</strong>用于辅助把甲木生于卯月的一般命理结构，转成更温和的性格与阶段叙事。</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

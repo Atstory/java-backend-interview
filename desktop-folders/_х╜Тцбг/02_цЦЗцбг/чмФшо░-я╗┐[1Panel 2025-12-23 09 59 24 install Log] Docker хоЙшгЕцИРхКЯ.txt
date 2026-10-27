@@ -1,0 +1,19 @@
+[1Panel 2025-12-23 09:59:24 install Log]: Docker 安装成功
+Synchronizing state of docker.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable docker
+是否要配置镜像加速 [y/n]: y
+[1Panel 2025-12-23 10:00:21 install Log]: 创建新配置文件 /etc/docker/daemon.json...
+[1Panel 2025-12-23 10:00:21 install Log]: 已添加镜像加速配置。
+[1Panel 2025-12-23 10:00:21 install Log]: 正在重启 Docker 服务...
+[1Panel 2025-12-23 10:00:21 install Log]: Docker 服务已成功重启。
+设置 1Panel 端口 (默认是 36007):
+[1Panel 2025-12-23 10:00:25 install Log]: 您设置的端口是:  36007
+[1Panel 2025-12-23 10:00:25 install Log]: 正在打开防火墙端口 36007
+防火墙规则已更新
+规则已更新(v6)
+未启用防火墙(跳过重新载入)
+设置 1Panel 安全入口 (默认是 21f326525c):
+[1Panel 2025-12-23 10:00:34 install Log]: 您设置的面板安全入口是 21f326525c
+设置 1Panel 面板用户 (默认是 c986177c84):
+[1Panel 2025-12-23 10:00:44 install Log]: 您设置的面板用户是 c986177c84
+[1Panel 2025-12-23 10:00:44 install Log]: 设置 1Panel 面板密码，设置后按回车键继续 (默认是 b5e6f049c3):

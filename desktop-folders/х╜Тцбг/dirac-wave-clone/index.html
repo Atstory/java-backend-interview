@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dirac 声波动画 - 1:1 复刻</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* 波形区域 */
+    .wave-section {
+      position: relative;
+      height: 400vh; /* 4倍屏高，提供滚动空间 */
+    }
+
+    /* 粘性Canvas容器 */
+    .canvas-container {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    #waveCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* 文字内容层 */
+    .content-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .screen {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 4rem;
+    }
+
+    .screen-1 { justify-content: flex-end; }
+    .screen-2 { justify-content: flex-end; }
+    .screen-3 { justify-content: flex-start; }
+    .screen-4 { justify-content: flex-start; }
+
+    .text-content {
+      max-width: 800px;
+      font-weight: 300;
+      line-height: 1.2;
+    }
+
+    .screen-1 .text-content {
+      font-size: clamp(2rem, 5vw, 4rem);
+    }
+
+    .screen-2 .text-content {
+      font-size: clamp(2rem, 5vw, 4rem);
+    }
+
+    .screen-3 .text-content {
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      opacity: 0.9;
+    }
+
+    .screen-4 .text-content {
+      font-size: clamp(1.5rem, 4vw, 3rem);
+    }
+
+    /* 后续内容区 */
+    .result-section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 2rem;
+      text-align: center;
+    }
+
+    .result-section h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+    }
+
+    /* 调试信息 */
+    .debug-info {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 14px;
+      z-index: 1000;
+      display: none; /* 默认隐藏，按D键显示 */
+    }
+
+    .debug-info.show {
+      display: block;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .screen {
+        padding: 0 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 调试信息面板 -->
+  <div class="debug-info" id="debugInfo">
+    <div>滚动进度: <span id="progressText">0.0%</span></div>
+    <div>当前阶段: <span id="phaseText">阶段1</span></div>
+    <div>帧率: <span id="fpsText">60 FPS</span></div>
+    <div style="margin-top: 10px; opacity: 0.6;">按 D 键隐藏</div>
+  </div>
+
+  <!-- 波形动画区域 -->
+  <section class="wave-section">
+    <!-- 粘性Canvas背景 -->
+    <div class="canvas-container">
+      <canvas id="waveCanvas"></canvas>
+    </div>
+
+    <!-- 滚动文字内容 -->
+    <div class="content-overlay">
+      <div class="screen screen-1">
+        <div class="text-content">
+          Your room is distorting your sound.
+        </div>
+      </div>
+
+      <div class="screen screen-2">
+        <div class="text-content">
+          But we<br>can fix<br>that.
+        </div>
+      </div>
+
+      <div class="screen screen-3">
+        <div class="text-content">
+          Walls, ceilings and furniture all impact how sound is experienced.
+        </div>
+      </div>
+
+      <div class="screen screen-4">
+        <div class="text-content">
+          Our software identifies these imperfections...
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 结果展示区 -->
+  <section class="result-section">
+    <h1>The result?<br>Audio perfection.</h1>
+  </section>
+
+  <script>
+    // ==========================================
+    // 全局变量
+    // ==========================================
+    const canvas = document.getElementById('waveCanvas');
+    const ctx = canvas.getContext('2d');
+    let scrollProgress = 0;
+    let canvasWidth = 0;
+    let canvasHeight = 0;
+
+    // FPS计算
+    let lastFrameTime = performance.now();
+    let frameCount = 0;
+    let fps = 60;
+
+    // 调试模式
+    let debugMode = false;
+
+    // ==========================================
+    // 初始化Canvas尺寸
+    // ==========================================
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+
+      canvasWidth = window.innerWidth;
+      canvasHeight = window.innerHeight;
+
+      canvas.width = canvasWidth * dpr;
+      canvas.height = canvasHeight * dpr;
+
+      canvas.style.width = canvasWidth + 'px';
+      canvas.style.height = canvasHeight + 'px';
+
+      ctx.scale(dpr, dpr);
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // ==========================================
+    // 计算滚动进度
+    // ==========================================
+    let ticking = false;
+
+    function calculateScrollProgress() {
+      const section = document.querySelector('.wave-section');
+      const rect = section.getBoundingClientRect();
+
+      const sectionHeight = section.clientHeight;
+      const viewportHeight = window.innerHeight;
+      const scrollableHeight = sectionHeight - viewportHeight;
+      const scrolled = -rect.top;
+
+      scrollProgress = Math.max(0, Math.min(1, scrolled / scrollableHeight));
+
+      // 更新调试信息
+      if (debugMode) {
+        updateDebugInfo();
+      }
+    }
+
+    function handleScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          calculateScrollProgress();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // ==========================================
+    // 调试信息更新
+    // ==========================================
+    function updateDebugInfo() {
+      document.getElementById('progressText').textContent = (scrollProgress * 100).toFixed(1) + '%';
+
+      let phase = '阶段1：单侧波形';
+      if (scrollProgress >= 0.75) phase = '阶段4：完整3D';
+      else if (scrollProgress >= 0.5) phase = '阶段3：3D形成';
+      else if (scrollProgress >= 0.25) phase = '阶段2：对称波';
+
+      document.getElementById('phaseText').textContent = phase;
+      document.getElementById('fpsText').textContent = fps.toFixed(0) + ' FPS';
+    }
+
+    // 切换调试模式
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'd' || e.key === 'D') {
+        debugMode = !debugMode;
+        document.getElementById('debugInfo').classList.toggle('show', debugMode);
+      }
+    });
+
+    // ==========================================
+    // 配置参数
+    // ==========================================
+    const config = {
+      lineCount: 80,
+      lineSpacing: 8,
+      lineWidth: 2,
+
+      colors: {
+        cyan: '#00ffff',
+        red: '#ff6464',
+        white: '#ffffff'
+      },
+
+      animationSpeed: 0.0008
+    };
+
+    // ==========================================
+    // 阶段1：单侧横向波形
+    // ==========================================
+    function drawPhase1(centerY, time, progress) {
+      ctx.strokeStyle = config.colors.cyan;
+      ctx.lineWidth = config.lineWidth;
+
+      const phase = time * config.animationSpeed;
+
+      for (let i = 0; i < config.lineCount; i++) {
+        const y = centerY - (config.lineCount / 2) * config.lineSpacing + i * config.lineSpacing;
+
+        // 正弦波计算
+        const frequency = 0.15;
+        const amplitude = 80;
+        const offset = Math.sin(i * frequency + phase) * amplitude;
+
+        // 逐渐显示效果
+        const lineProgress = Math.max(0, Math.min(1, progress * 2 - (i / config.lineCount)));
+        const length = 200 * lineProgress + offset;
+
+        ctx.beginPath();
+        ctx.moveTo(100, y);
+        ctx.lineTo(100 + length, y);
+        ctx.stroke();
+      }
+    }
+
+    // ==========================================
+    // 阶段2：对称双波形（青色+红色）
+    // ==========================================
+    function drawPhase2(centerX, centerY, time, progress) {
+      ctx.lineWidth = config.lineWidth;
+
+      const phase = time * config.animationSpeed;
+      const separation = 300 * progress; // 左右分离距离
+
+      for (let i = 0; i < config.lineCount; i++) {
+        const y = centerY - (config.lineCount / 2) * config.lineSpacing + i * config.lineSpacing;
+
+        // 复合波形
+        const frequency1 = 0.2;
+        const frequency2 = 0.15;
+        const amplitude1 = 100;
+        const amplitude2 = 60;
+
+        const offset =
+          Math.sin(i * frequency1 + phase) * amplitude1 +
+          Math.sin(i * frequency2 + phase * 1.5) * amplitude2;
+
+        // 左侧青色
+        ctx.strokeStyle = config.colors.cyan;
+        ctx.beginPath();
+        ctx.moveTo(centerX - separation, y);
+        ctx.lineTo(centerX - separation - offset, y);
+        ctx.stroke();
+
+        // 右侧红色
+        ctx.strokeStyle = config.colors.red;
+        ctx.beginPath();
+        ctx.moveTo(centerX + separation, y);
+        ctx.lineTo(centerX + separation + offset, y);
+        ctx.stroke();
+      }
+    }
+
+    // ==========================================
+    // 阶段3：3D网格形成过程
+    // ==========================================
+    function drawPhase3(centerX, centerY, time, progress) {
+      ctx.strokeStyle = config.colors.white;
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 0.6 + progress * 0.4;
+
+      const phase = time * config.animationSpeed;
+      const gridSize = 60;
+      const scale = 5;
+
+      // 2D到3D的混合比例
+      const mixRatio = progress;
+
+      // 绘制纵向网格线
+      for (let x = -gridSize/2; x <= gridSize/2; x += 2) {
+        ctx.beginPath();
+
+        for (let z = -gridSize/2; z <= gridSize/2; z += 1) {
+          // 3D波形
+          const wave3D = Math.sin(x * 0.12 + phase) * Math.cos(z * 0.12 + phase) * 12;
+
+          // 2D波形
+          const wave2D = Math.sin(x * 0.2 + phase) * 8;
+
+          // 混合
+          const waveHeight = wave2D * (1 - mixRatio) + wave3D * mixRatio;
+
+          // 3D投影
+          const perspective = 0.8;
+          const depth = z * perspective;
+
+          const screenX = centerX + x * scale;
+          const screenY = centerY + depth * 2 + waveHeight * 8;
+
+          if (z === -gridSize/2) {
+            ctx.moveTo(screenX, screenY);
+          } else {
+            ctx.lineTo(screenX, screenY);
+          }
+        }
+        ctx.stroke();
+      }
+
+      ctx.globalAlpha = 1.0;
+    }
+
+    // ==========================================
+    // 阶段4：完整3D波形 + 光晕
+    // ==========================================
+    function drawPhase4(centerX, centerY, time, progress) {
+      ctx.strokeStyle = config.colors.white;
+      ctx.lineWidth = 1;
+
+      const phase = time * config.animationSpeed;
+      const gridSize = 80;
+      const scale = 5;
+
+      // 添加光晕效果
+      const gradient = ctx.createRadialGradient(
+        centerX, centerY, 0,
+        centerX, centerY, 400
+      );
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
+      gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.05)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+      // 绘制纵向网格
+      for (let x = -gridSize/2; x <= gridSize/2; x += 2) {
+        ctx.beginPath();
+
+        for (let z = -gridSize/2; z <= gridSize/2; z += 1) {
+          // 三频叠加波形
+          const wave =
+            Math.sin(x * 0.1 + phase) * Math.cos(z * 0.1 + phase) * 15 +
+            Math.sin(x * 0.05 + phase * 0.7) * Math.sin(z * 0.08 + phase * 0.7) * 8 +
+            Math.cos(x * 0.15 - phase * 1.2) * Math.cos(z * 0.12 - phase * 1.2) * 5;
+
+          // 透视投影
+          const perspective = 0.7;
+          const depth = z * perspective;
+
+          const screenX = centerX + x * scale;
+          const screenY = centerY + depth * 3 + wave * 10;
+
+          // 根据深度调整透明度
+          const alpha = Math.max(0.2, 1 - Math.abs(z) / gridSize);
+          ctx.globalAlpha = alpha;
+
+          if (z === -gridSize/2) {
+            ctx.moveTo(screenX, screenY);
+          } else {
+            ctx.lineTo(screenX, screenY);
+          }
+        }
+        ctx.stroke();
+      }
+
+      // 绘制横向网格（增加复杂度）
+      ctx.globalAlpha = 0.3;
+      for (let z = -gridSize/2; z <= gridSize/2; z += 4) {
+        ctx.beginPath();
+
+        for (let x = -gridSize/2; x <= gridSize/2; x += 1) {
+          const wave = Math.sin(x * 0.1 + phase) * Math.cos(z * 0.1 + phase) * 15;
+
+          const perspective = 0.7;
+          const depth = z * perspective;
+
+          const screenX = centerX + x * scale;
+          const screenY = centerY + depth * 3 + wave * 10;
+
+          if (x === -gridSize/2) {
+            ctx.moveTo(screenX, screenY);
+          } else {
+            ctx.lineTo(screenX, screenY);
+          }
+        }
+        ctx.stroke();
+      }
+
+      ctx.globalAlpha = 1.0;
+    }
+
+    // ==========================================
+    // 主绘制函数
+    // ==========================================
+    function draw(time) {
+      // 清空画布
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      const centerX = canvasWidth / 2;
+      const centerY = canvasHeight / 2;
+
+      // 根据滚动进度选择绘制阶段
+      if (scrollProgress < 0.25) {
+        // 阶段1：单侧波形
+        const phaseProgress = scrollProgress / 0.25;
+        drawPhase1(centerY, time, phaseProgress);
+
+      } else if (scrollProgress < 0.5) {
+        // 阶段2：对称双波形
+        const phaseProgress = (scrollProgress - 0.25) / 0.25;
+        drawPhase2(centerX, centerY, time, phaseProgress);
+
+      } else if (scrollProgress < 0.75) {
+        // 阶段3：3D网格形成
+        const phaseProgress = (scrollProgress - 0.5) / 0.25;
+        drawPhase3(centerX, centerY, time, phaseProgress);
+
+      } else {
+        // 阶段4：完整3D波形
+        const phaseProgress = (scrollProgress - 0.75) / 0.25;
+        drawPhase4(centerX, centerY, time, phaseProgress);
+      }
+
+      // FPS计算
+      frameCount++;
+      const currentTime = performance.now();
+      if (currentTime >= lastFrameTime + 1000) {
+        fps = frameCount;
+        frameCount = 0;
+        lastFrameTime = currentTime;
+      }
+
+      // 继续动画循环
+      requestAnimationFrame(draw);
+    }
+
+    // ==========================================
+    // 启动动画
+    // ==========================================
+    requestAnimationFrame(draw);
+
+    // 初始计算一次滚动进度
+    calculateScrollProgress();
+  </script>
+
+</body>
+</html>

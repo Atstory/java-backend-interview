@@ -1,0 +1,11 @@
+updatedAt: '2026-04-14 10:37:29'
+verifyStatus: passed
+slug: harness-cli-bootstrap
+id: CHG-20260413-harness-cli-bootstrap
+title: 'Harness CLI 启动脚本实现'
+reviewStatus: passed
+status: active
+mode: fast
+archivedAt: ''
+capability: harness
+createdAt: '2026-04-13 19:51:16'
